@@ -12,6 +12,9 @@ import LoginNameScreen from "./screens/LoginNameScreen";
 import AddressToScreens from "./screens/AddressToScreen";
 import DateScreens from "./screens/DateScreens";
 import TripListScreens from "./screens/TripListScreens";
+import ChooseSeatScreen from "./screens/ChooseSeatScreen";
+import BookTicket from "./screens/BookTicket";
+import Ticketinformation from "./screens/Ticketinformation";
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -26,6 +29,9 @@ const App = () => {
             <Stack.Screen name="AddresTo" component={AddressToScreens}></Stack.Screen>
             <Stack.Screen name="Date" component={DateScreens}></Stack.Screen>
             <Stack.Screen name="TripList" component={TripListScreens}></Stack.Screen>
+            <Stack.Screen name="ChooseSeat" component={ChooseSeatScreen}></Stack.Screen>
+            <Stack.Screen name="BookTicket" component={BookTicket}></Stack.Screen>
+            <Stack.Screen name="TicketInform" component={Ticketinformation}></Stack.Screen>
           </Stack.Navigator>
         </MyNote>
       </NavigationContainer>

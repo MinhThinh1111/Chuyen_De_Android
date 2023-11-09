@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import HomeScreen from "../HomeScreen";
 import AccountScreen from "../AccountScreen";
+import MyTripScreen from "../MyTripScreen";
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
   const optionScreen = ({route} : any) =>({
@@ -37,6 +38,7 @@ const TabNavigator = () => {
   return (
       <Tab.Navigator screenOptions={optionScreen}>     
         <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="MyTric" component={MyTripScreen} />
         <Tab.Screen name="Account" component={AccountScreen} />
       </Tab.Navigator>
   )

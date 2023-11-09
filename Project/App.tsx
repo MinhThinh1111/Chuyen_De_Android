@@ -10,6 +10,7 @@ import MyNote from "./ConText/MyNote";
 import LoginPhoneScreen from "./screens/LoginPhoneScreen";
 import LoginNameScreen from "./screens/LoginNameScreen";
 import AddressToScreens from "./screens/AddressToScreen";
+import DateScreens from "./screens/DateScreens";
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
             <Stack.Screen name="LoginName" component={LoginNameScreen}></Stack.Screen>
             <Stack.Screen name="App" component={TabNavigator}></Stack.Screen>
             <Stack.Screen name="AddresTo" component={AddressToScreens}></Stack.Screen>
+            <Stack.Screen name="Date" component={DateScreens}></Stack.Screen>
           </Stack.Navigator>
         </MyNote>
       </NavigationContainer>

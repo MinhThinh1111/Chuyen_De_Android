@@ -11,6 +11,7 @@ import LoginPhoneScreen from "./screens/LoginPhoneScreen";
 import LoginNameScreen from "./screens/LoginNameScreen";
 import AddressToScreens from "./screens/AddressToScreen";
 import DateScreens from "./screens/DateScreens";
+import TripListScreens from "./screens/TripListScreens";
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
             <Stack.Screen name="App" component={TabNavigator}></Stack.Screen>
             <Stack.Screen name="AddresTo" component={AddressToScreens}></Stack.Screen>
             <Stack.Screen name="Date" component={DateScreens}></Stack.Screen>
+            <Stack.Screen name="TripList" component={TripListScreens}></Stack.Screen>
           </Stack.Navigator>
         </MyNote>
       </NavigationContainer>

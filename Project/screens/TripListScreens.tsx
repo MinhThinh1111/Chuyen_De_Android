@@ -4,27 +4,41 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import IconFontisto from "react-native-vector-icons/Fontisto";
 import { useNavigation } from '@react-navigation/native';
 import Waiting from "./Waiting";
+
+// Component TripListScreens nhận các tham số thông qua route
 const TripListScreens = ({ route }: any) => {
     const navigation = useNavigation()
+
+    // Lấy thông tin từ route.params
     const { NgayDi, idLoTrinh, toAdderss, fromAdderss } = route.params;
+
+    // State chứa danh sách chuyến đi
     const [chuyenDi, setchuyenDi] = useState([]);
-    let i = '2023-11-3'
+
+    // Ngày mặc định để test
+    let i = '2023-11-3';
+
+    // Hàm gọi API để lấy danh sách chuyến đi theo idLoTrinh và NgayDi
     const getChuyenDiByIdLoTrinhNgayDi = async () => {
         try {
-            const res = await fetch('http://192.168.2.98:3000/chuyendi/search/' +idLoTrinh+ '/' + NgayDi);
+            const res = await fetch('http://192.168.1.2:3000/chuyendi/search/' + idLoTrinh + '/' + NgayDi);
             const data = await res.json();
-            setchuyenDi(data)
+            setchuyenDi(data);
         } catch (err) {
             console.log(err);
         }
     }
 
-    const nextPage = (id:any,idxe:any,giaTien:any) =>{
-        navigation.navigate('ChooseSeat',{Id_ChuyenDi:id,Id_Xe:idxe,giaTien:giaTien})
+    // Hàm chuyển hướng sang màn hình chọn ghế khi người dùng nhấn vào một chuyến đi
+    const nextPage = (id: any, idxe: any, giaTien: any) => {
+        navigation.navigate('ChooseSeat', { Id_ChuyenDi: id, Id_Xe: idxe, giaTien: giaTien })
     }
+
+    // Sử dụng useEffect để gọi hàm lấy danh sách chuyến đi khi component được render
     useEffect(() => {
         getChuyenDiByIdLoTrinhNgayDi();
     }, [])
+    
     return (
         <>
             <View style={styles.header}>
@@ -32,9 +46,9 @@ const TripListScreens = ({ route }: any) => {
                 <Image style={{ width: '100%', height: 200 }} source={require('../assets/Images/banner1.jpg')}></Image>
                 <View style={styles.headerName}>
                     <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: -10 }} ><Icon style={{ backgroundColor: 'white', padding: 12, borderRadius: 10 }} name="arrow-back" size={20} color="red" /></TouchableOpacity>
-                    <Text style={{ fontSize: 20, color: 'black', fontWeight:'bold'}}>{toAdderss}</Text>
-                    <Icon name="arrow-forward" size={26} color="black" />
-                    <Text style={{ fontSize: 20, color: 'black', fontWeight:'bold' }}>{fromAdderss}</Text>
+                    <Text style={{ fontSize: 20, color: '#fff', fontWeight:'bold'}}>{toAdderss}</Text>
+                    <Icon name="arrow-forward" size={26} color="#fff" />
+                    <Text style={{ fontSize: 20, color: '#fff', fontWeight:'bold' }}>{fromAdderss}</Text>
                 </View>
             </View>
             <View style={styles.date}>
@@ -42,8 +56,8 @@ const TripListScreens = ({ route }: any) => {
                     <IconFontisto name="date" size={20} color='white'></IconFontisto>
                 </TouchableOpacity> */}
                 <View>
-                    <Text style={{ color: 'white', fontSize: 17, textAlign:'center' }}>Danh sách chuyến xe</Text>
-                    <Text style={{ color: 'white', fontSize: 17, textAlign:'center' }}> {NgayDi}</Text>
+                    <Text style={{ color: 'black', fontSize: 17, textAlign:'center', fontWeight:'bold' }}>Danh sách chuyến xe</Text>
+                    <Text style={{ color: 'black', fontSize: 17, textAlign:'center', fontWeight:'bold' }}> {NgayDi}</Text>
                 </View>
                 {/* <IconFontisto name="nav-icon-list-a" size={20} color='white'></IconFontisto> */}
             </View>
@@ -61,7 +75,7 @@ const TripListScreens = ({ route }: any) => {
                 <FlatList data={chuyenDi}
                     renderItem={({ item }: any) =>
                         <TouchableOpacity onPress={() => nextPage(item.Id,item.Id_Xe,item.Gia_Tien)}>
-                            <View style={{ padding: 10, backgroundColor: 'white', width: '92%', alignSelf: 'center', marginTop: 12, borderRadius: 20 }}>
+                            <View style={{ padding: 10, backgroundColor: '#819FF7', width: '92%', alignSelf: 'center', marginTop: 12, borderRadius: 20 }}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 10 }}>
                                     <Text style={{ fontSize: 15, color: 'black', width: '65%' }}>Giường nằm {item.SoGheTrong} chố (có wc)</Text>
                                     <Text style={{}}>Còn {item.SoGheTrong}Chố trống</Text>
@@ -111,7 +125,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent: 'space-between',
         padding: 20,
-        backgroundColor: '#642EFE',
+        backgroundColor: '#819FF7',
         borderTopEndRadius: 25,
         borderTopStartRadius: 25,
         height: '12%'

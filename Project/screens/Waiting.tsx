@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Text, TouchableOpacity, View, TextInput, StyleSheet, Alert, FlatList } from "react-native";
+import { View} from "react-native";
 const Waiting = () =>{
     return (
         <>

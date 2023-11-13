@@ -4,17 +4,26 @@ import { StatusBar } from "react-native";
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import { useNavigation } from "@react-navigation/native";
-const ChooseSeatScreen = ({ route, navigation }: any) => {
-    const { Id_ChuyenDi, Id_Xe, giaTien, SoGhe } = route.params;
-    const [ListGheXeT1, setListGheXeT1] = useState([])
-    const [ListGheXeT2, setListGheXeT2] = useState([])
-    const [Tang, setTang] = useState(1)
-    const collectionDatVeXe: any = {};
-    const [soLuong, setsoLuong] = useState(0)
 
+// Component để chọn ghế xe
+const ChooseSeatScreen = ({ route, navigation }: any) => {
+    // Lấy thông tin từ tham số đường dẫn
+    const { Id_ChuyenDi, Id_Xe, giaTien, SoGhe } = route.params;
+    // Danh sách ghế tầng 1 và 2
+    const [ListGheXeT1, setListGheXeT1] = useState([]);
+    const [ListGheXeT2, setListGheXeT2] = useState([]);
+    // Tầng đang chọn (mặc định là tầng 1)
+    const [Tang, setTang] = useState(1);
+    // Đối tượng để lưu trữ thông tin đặt vé xe
+    const collectionDatVeXe: any = {};
+    // Số lượng ghế đã chọn
+    const [soLuong, setsoLuong] = useState(0);
+
+    // Hàm gọi API để lấy danh sách ghế xe
     const GhetGheXeByChuyenDi = async () => {
+        // Lấy danh sách ghế đã đặt theo chuyến đi
         try {
-            const res = await fetch('http://192.168.2.98:3000/chongoi/search/' + Id_ChuyenDi);
+            const res = await fetch('http://192.168.1.2:3000/chongoi/search/' + Id_ChuyenDi);
             const data = await res.json();
             if (data != null) {
                 for (let index = 0; index < data.length; index++) {
@@ -24,8 +33,10 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
         } catch (err) {
             console.log(err);
         }
+
+        // Lấy danh sách ghế tầng 1
         try {
-            const res = await fetch('http://192.168.2.98:3000/ghexe/search/' + Id_Xe + '/1');
+            const res = await fetch('http://192.168.1.2:3000/ghexe/search/' + Id_Xe + '/1');
             const data = await res.json();
 
             if (data != null) {
@@ -40,13 +51,15 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
                         SoGhe: data[index].SoGhe,
                     });
                 }
-                setListGheXeT1(List)
+                setListGheXeT1(List);
             }
         } catch (err) {
             console.log(err);
         }
+
+        // Lấy danh sách ghế tầng 2
         try {
-            const res = await fetch('http://192.168.2.98:3000/ghexe/search/' + Id_Xe + '/2');
+            const res = await fetch('http://192.168.1.2:3000/ghexe/search/' + Id_Xe + '/2');
             const data = await res.json();
             if (data != null) {
                 const List: any = [];
@@ -59,30 +72,28 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
                         Index: index,
                         SoGhe: data[index].SoGhe,
                     });
-
-
                 }
-                setListGheXeT2(List)
+                setListGheXeT2(List);
             }
         } catch (err) {
             console.log(err);
         }
     }
 
+    // Hàm chọn/chặn ghế khi người dùng nhấn vào ghế
     const Chonchongoi = async (Index: any, check: any) => {
-
         if (check == 1) {
+            // Chọn ghế tầng 1
             if (ListGheXeT1[Index].TrangThai == '3') {
                 let so = soLuong - 1;
                 setsoLuong(so);
                 ListGheXeT1[Index] = { Id: ListGheXeT1[Index].Id, Ten: ListGheXeT1[Index].Ten, Id_Xe: ListGheXeT1[Index].Id_Xe, TrangThai: '1', Index: Index, SoGhe: ListGheXeT1[Index].SoGhe };
             } else {
                 if (soLuong > 3) {
-                    Alert.alert("Thông báo", "Quý khách chỉ được chọn tối đa 4 ghế cho mỗi lần đặt")
-
+                    Alert.alert("Thông báo", "Quý khách chỉ được chọn tối đa 4 ghế cho mỗi lần đặt");
                 } else {
                     let so = soLuong + 1;
-                    setsoLuong(so)
+                    setsoLuong(so);
                     ListGheXeT1[Index] = { Id: ListGheXeT1[Index].Id, Ten: ListGheXeT1[Index].Ten, Id_Xe: ListGheXeT1[Index].Id_Xe, TrangThai: '3', Index: Index, SoGhe: ListGheXeT1[Index].SoGhe };
                 }
             }
@@ -90,19 +101,19 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
             for (let index = 0; index < ListGheXeT1.length; index++) {
                 await List.push(ListGheXeT1[index]);
             }
-            await setListGheXeT1(List)
+            await setListGheXeT1(List);
         } else {
+            // Chọn ghế tầng 2
             if (ListGheXeT2[Index].TrangThai == '3') {
                 let so = soLuong - 1;
                 setsoLuong(so);
                 ListGheXeT2[Index] = { Id: ListGheXeT2[Index].Id, Ten: ListGheXeT2[Index].Ten, Id_Xe: ListGheXeT2[Index].Id_Xe, TrangThai: '1', Index: Index, SoGhe: ListGheXeT2[Index].SoGhe };
             } else {
                 if (soLuong > 3) {
-                    Alert.alert("Thông báo", "Quý khách chỉ được chọn tối đa 4 ghế cho mỗi lần đặt")
-
+                    Alert.alert("Thông báo", "Quý khách chỉ được chọn tối đa 4 ghế cho mỗi lần đặt");
                 } else {
                     let so = soLuong + 1;
-                    setsoLuong(so)
+                    setsoLuong(so);
                     ListGheXeT2[Index] = { Id: ListGheXeT2[Index].Id, Ten: ListGheXeT2[Index].Ten, Id_Xe: ListGheXeT2[Index].Id_Xe, TrangThai: '3', Index: Index, SoGhe: ListGheXeT2[Index].SoGhe };
                 }
             }
@@ -110,38 +121,43 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
             for (let index = 0; index < ListGheXeT2.length; index++) {
                 await List.push(ListGheXeT2[index]);
             }
-            await setListGheXeT2(List)
+            await setListGheXeT2(List);
         }
-
     }
 
+    // Hàm gọi API để lấy thông tin đặt vé tầng 1
     const getDatveTang1 = async () => {
-
+        //TODO: Thực hiện gọi API để lấy thông tin đặt vé tầng 1
     }
 
+    // Hàm chuyển sang trang đặt vé khi người dùng nhấn nút "Tiếp Tục"
     const nextPage = async () => {
         const List: any = [];
+        // Thêm danh sách ghế đã chọn ở tầng 1
         for (let index = 0; index < ListGheXeT1.length; index++) {
             if (ListGheXeT1[index].TrangThai === '3') {
                 await List.push({
                     Id: ListGheXeT1[index].Id
-                })
+                });
             }
-
         }
+        // Thêm danh sách ghế đã chọn ở tầng 2
         for (let index = 0; index < ListGheXeT2.length; index++) {
             if (ListGheXeT2[index].TrangThai === '3') {
                 await List.push({
                     Id: ListGheXeT1[index].Id
-                })
+                });
             }
         }
+        // Chuyển sang trang đặt vé và truyền thông tin ghế đã chọn
         navigation.navigate('BookTicket', { data: List, Id_ChuyenDi: Id_ChuyenDi, TongTien: (250000 * soLuong) });
     }
 
+    // Hook useEffect để gọi API lấy danh sách ghế khi màn hình được tạo
     useEffect(() => {
-        GhetGheXeByChuyenDi()
-    }, [])
+        GhetGheXeByChuyenDi();
+    }, []);
+    
     return (
         <>
             <StatusBar translucent={true} backgroundColor={'transparent'} barStyle="dark-content"></StatusBar>

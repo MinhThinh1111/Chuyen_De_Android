@@ -4,11 +4,15 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import IconIonicons from "react-native-vector-icons/Ionicons";
-import HomeScreen from "../HomeScreen";
-import AccountScreen from "../AccountScreen";
+import HomeScreen from "../HomeScreens";
+import AccountScreen from "../AccountScreens";
 import MyTripScreen from "../MyTripScreen";
+
+// Tạo một functional component TabNavigator
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
+
+  // Hàm optionScreen để cấu hình các tuỳ chọn cho mỗi tab
   const optionScreen = ({route} : any) =>({
     tabBarIcon: ({ focused, color, size } : any) => {
       let iconName = ""
@@ -43,6 +47,7 @@ const TabNavigator = () => {
       </Tab.Navigator>
   )
 }
+
 const styles = StyleSheet.create({
 
 })

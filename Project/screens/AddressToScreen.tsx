@@ -2,16 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Image, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View, FlatList } from "react-native";
 import Icon from 'react-native-vector-icons/EvilIcons';
 
+// Component xử lý chọn địa chỉ từ màn hình đến (to) hoặc từ (from)
 const AddressToScreens = ({ route, navigation }: any) => {
 
-    const [listTinh, setListTinh] = useState([])
+    // State để lưu danh sách tỉnh/thành phố và quận/huyện
+    const [listTinh, setListTinh] = useState([]);
     const [listHuyen, setListHuyen] = useState([]);
     const { address } = route.params;
 
+    // Hàm lấy danh sách tỉnh/thành phố từ API
     const getTinh = async () => {
         try {
-            // const res = await fetch('http://192.168.2.98:3000/tinh');
-            const res = await fetch('http://192.168.2.98:3000/tinh');
+            // const res = await fetch('http://192.168.1.2:3000/tinh');
+            const res = await fetch('http://192.168.1.2:3000/tinh');
             const data = await res.json();
             setListTinh(data);
         } catch (err) {
@@ -19,10 +22,11 @@ const AddressToScreens = ({ route, navigation }: any) => {
         }
     }
 
+    // Hàm lấy danh sách quận/huyện dựa trên ID tỉnh/thành phố từ API
     const getHuyenXa = async (id: any) => {
         try {
-            // const res = await fetch('http://192.168.2.98:3000/quanhuyen/IdTinh/'+ id);
-            const res = await fetch('http://192.168.2.98:3000/quanhuyen/IdTinh/'+ id);
+            // const res = await fetch('http://192.168.1.2:3000/quanhuyen/IdTinh/'+ id);
+            const res = await fetch('http://192.168.1.2:3000/quanhuyen/IdTinh/'+ id);
             const data = await res.json();
             setListHuyen(data);
         } catch (err) {
@@ -30,31 +34,25 @@ const AddressToScreens = ({ route, navigation }: any) => {
         }
     }
 
-    const getAdderesNavigate = async (Id: any, Ten: any,Id_Huyen: any) => {
+    // Hàm xử lý khi chọn địa chỉ và chuyển về màn hình chính
+    const getAdderesNavigate = async (Id: any, Ten: any, Id_Huyen: any) => {
         if (address == 'to') {
-            navigation.navigate('Home', { Idadderss: Id, Tenadderss: Ten, checkAdders: 'to', Id_Huyen: Id_Huyen});
+            navigation.navigate('Home', { Idadderss: Id, Tenadderss: Ten, checkAdders: 'to', Id_Huyen: Id_Huyen });
         } else {
             navigation.navigate('Home', { Idadderss: Id, Tenadderss: Ten, checkAdders: 'from', Id_Huyen: Id_Huyen });
         }
     }
 
+    // Sử dụng useEffect để gọi hàm lấy danh sách tỉnh khi component được render
     useEffect(() => {
         getTinh();
     }, [])
     return (
         <>
-            <StatusBar backgroundColor="#f28780" barStyle="dark-content"></StatusBar>
+            <StatusBar backgroundColor="#642EFE" barStyle="dark-content"></StatusBar>
             <Text style={styles.datePicker}>
                 Chọn nơi bạn muốn đi
             </Text>
-            <View>
-                <TouchableOpacity style={styles.Icons} onPress={() => navigation.goBack()}>
-                    <Icon style={styles.Icon} name="close" size={20} color="red" />
-                </TouchableOpacity>
-                <View style={{ height: 159, width: "100%", backgroundColor: '#642EFE', }}>
-                    <Text style={{ padding: 14, backgroundColor: 'white', marginTop: 43, marginLeft: 23, width: "90%", borderRadius: 12, fontSize: 16 }}> Tỉnh / Thành, Quận / Huyện </Text>
-                </View>
-            </View>
             <View style={styles.address}>
                 <Text style={{ fontSize: 19, color: 'black', alignSelf: 'center' }}>Tỉnh thành</Text>
                 <Text style={{ fontSize: 19, color: 'black', }}>Quận huyện </Text>
@@ -90,11 +88,12 @@ const AddressToScreens = ({ route, navigation }: any) => {
 
 const styles = StyleSheet.create({
     datePicker: {
-        marginTop: 23,
+        marginTop: 20,
         backgroundColor: "#642EFE",
         paddingHorizontal: 16,
-        paddingVertical: 60,
-        fontSize: 29,
+        paddingVertical: 40,
+        textAlign:'center',
+        fontSize: 20,
         color: "white",
     },
     Icons: {

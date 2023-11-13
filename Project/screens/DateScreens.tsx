@@ -2,14 +2,23 @@ import React, { useEffect, useState } from "react";
 import { Image, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Icon from 'react-native-vector-icons/EvilIcons';
 import DatePicker from 'react-native-modern-datepicker';
+
+// Màn hình chọn ngày
 const DateScreens = ({route,navigation}:any) => {
+    // Lấy ngày hiện tại dưới định dạng YYYY-MM-DD
     const curentday = new Date().toJSON().slice(0, 10);
+
+    // State để theo dõi ngày được chọn
     const [selectedDate, setSelectedDate] = useState(curentday);
+
+    // Kiểm tra nếu có dữ liệu truyền từ màn hình khác, cập nhật ngày được chọn
     if(route.params != undefined){
         const {datetime} = route.params;
         setSelectedDate(datetime);
         route.params = undefined
     }
+
+    // Hàm chuyển hướng về màn hình Home và truyền ngày đã chọn
     const GetDateHome =(Date: any) =>{         
         navigation.navigate('Home',{datetime: Date})
     }

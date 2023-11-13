@@ -1,0 +1,302 @@
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, StatusBar, Alert } from "react-native";
+import IconIonicons from "react-native-vector-icons/Ionicons";
+import IconFeather from "react-native-vector-icons/Feather";
+import IconFontisto from "react-native-vector-icons/Fontisto";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNotes } from "../ConText/MyNote";
+
+// Component chính của màn hình Home
+const HomeScreen = ({ route, navigation }: any) => {
+  // Lấy ngày hiện tại
+  const curentday = new Date().toJSON().slice(0, 10);
+
+  // Sử dụng context để lấy dữ liệu về ghi chú
+  const { IsNote}: any = useNotes()
+
+  // Khai báo các state sử dụng trong component
+  const [date, setdate] = useState(curentday);
+  const [toAdderss, settoAdderss] = useState('');
+  const [fromAdderss, setfromAdderss] = useState('');
+  const [idToAdderss, setIdToAdderss] = useState();
+  const [idFromAdderss, setIdFromAdderss] = useState();
+  const [IdHuyento, setIdHuyento] = useState('');
+  const [IdHuyenfrom, setIdHuyenform] = useState('');
+
+  // Xử lý thay đổi thông tin khi nhận tham số từ màn hình khác
+  if (route.params != undefined) {
+    const { datetime } = route.params;
+    const { Idadderss } = route.params;
+    const { Tenadderss } = route.params;
+    const { checkAdders } = route.params;
+    const { Id_Huyen } = route.params;
+
+    if (datetime != undefined) {
+      // Xử lý định dạng ngày giờ khi có tham số datetime
+      let getYear = datetime.slice(0, 4);
+      let getMonth = datetime.slice(5, 7);
+      let getDate = datetime.slice(8, 10);
+      let date = getYear + '-' + getMonth + '-' + getDate;
+      setdate(date);
+    } else if (Idadderss != undefined) {
+      // Xử lý khi có tham số Idadderss
+      if (checkAdders == 'to') {
+        // Nếu là điểm đi, cập nhật thông tin điểm đi
+        setIdHuyento(Id_Huyen);
+        settoAdderss(Tenadderss);
+        setIdToAdderss(Idadderss);
+      } else {
+        // Nếu là điểm đến, cập nhật thông tin điểm đến
+        setIdHuyenform(Id_Huyen);
+        setfromAdderss(Tenadderss);
+        setIdFromAdderss(Idadderss);
+      }
+    }
+    route.params = undefined;
+  }
+
+  // Hàm thực hiện việc đổi chỗ nơi đi và nơi đến
+  const swapAdderss = async () => {
+    let to = toAdderss;
+    let idTo = idToAdderss;
+    let idtoHuyen = IdHuyento;
+
+    // Swap thông tin giữa điểm đi và điểm đến
+    await setIdHuyento(IdHuyenfrom);
+    await setIdHuyenform(idtoHuyen);
+    await settoAdderss(fromAdderss);
+    await setfromAdderss(to);
+    await setIdToAdderss(idFromAdderss);
+    await setIdFromAdderss(idTo);
+  };
+
+  // Hàm xử lý khi người dùng nhấn nút Tìm chuyến
+  const nextPage = async () => {
+    // Kiểm tra xem đã chọn điểm đi và điểm đến chưa
+    if (idToAdderss == null || idFromAdderss == null) {
+      if (idToAdderss == null && idFromAdderss == null) {
+        // Thông báo khi cả điểm đi và điểm đến chưa được chọn
+        Alert.alert('Thông báo', 'Vui lòng chọn nơi khởi hành và nơi bạn muốn đến');
+      } else if (idFromAdderss == null) {
+        // Thông báo khi chỉ có điểm đến chưa được chọn
+        Alert.alert('Thông báo', 'Vui lòng chọn nơi bạn muốn đến');
+      } else {
+        // Thông báo khi chỉ có điểm đi chưa được chọn
+        Alert.alert('Thông báo', 'Vui lòng chọn nơi khởi hành');
+      }
+    } else {
+      try {
+        // Lưu thông tin huyện vào AsyncStorage
+        let datahuyen =
+          IdHuyento + ',' +
+          IdHuyenfrom;
+
+        await AsyncStorage.setItem('idHuyen', datahuyen);
+
+        // Gọi API để lấy thông tin về chuyến đi và chuyển sang màn hình TripList
+        const res = await fetch('http://192.168.1.2:3000/lotrinh/search/' + idToAdderss + '/' + idFromAdderss);
+        const data = await res.json();
+
+        navigation.navigate('TripList', { idLoTrinh: data.Id, NgayDi: date, toAdderss: toAdderss, fromAdderss: fromAdderss });
+      } catch (err) {
+        console.log(err);
+      }
+
+      // Nếu có lỗi, chuyển sang màn hình TripList với idLoTrinh = null
+      navigation.navigate('TripList', { idLoTrinh: null, NgayDi: date, toAdderss: toAdderss, fromAdderss: fromAdderss });
+    }
+  };
+
+  useEffect(() => {
+  }, []);
+
+    return (
+        <ScrollView>
+            <StatusBar translucent={true} backgroundColor={'transparent'} barStyle="dark-content"></StatusBar>
+            <View style={styles.banner}>
+                <Image style={styles.bannerImg} source={require("../assets/Images/banner1.jpg")} />
+                <View style={styles.bannerText}>
+                    <Text style={styles.bannerText1}>Xin chào {IsNote.TenHanhKhach}</Text>
+                    <Text style={{ color: "black" }}>Chào mừng bạn đến với APP SPTRAVEL</Text>
+                </View>
+            </View>
+
+            <View style={styles.search}>
+                <View style={styles.searchAddress}>
+                    <View style={styles.searchAddressTo}>
+                    <IconFeather name="map-pin" size={20} color="red" />
+                        <View style={styles.searchAddressName}>
+                            <Text>Nơi đi</Text>
+                            <TouchableOpacity onPress={() => navigation.navigate("AddresTo", { address: 'to' })}>        
+                                {
+                                    toAdderss == null || toAdderss.length == 0 ?
+                                    <Text style={{ fontWeight: "bold", color: 'black', fontSize: 20 }}>Nơi khởi hành</Text>
+                                    :
+                                    <Text style={{ fontWeight: "bold", color: 'black', fontSize: 20 }}>{toAdderss}</Text>                                    
+                                }
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={styles.line}></View>
+                    <View style={styles.searchAddressTo}>
+                        <IconFeather name="map-pin" size={20} color="red" />
+                        <View style={styles.searchAddressName}>
+                            <Text>Nơi đến</Text>
+                            <TouchableOpacity onPress={() => navigation.navigate("AddresTo", { address: 'from' })}>        
+                                {
+                                    fromAdderss == null || fromAdderss.length == 0 ?
+                                    <Text style={{ fontWeight: "bold", color: 'black', fontSize: 20 }}>Bạn muốn đi đâu</Text>
+                                    :
+                                    <Text style={{ fontWeight: "bold", color: 'black', fontSize: 20 }}>{fromAdderss}</Text>                                    
+                                }
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <TouchableOpacity onPress={() => swapAdderss()}style={styles.Icon}><IconIonicons name="swap-vertical-sharp" size={20} color="red" /></TouchableOpacity>
+                </View>
+
+                <TouchableOpacity style={styles.searchDate} onPress={() => navigation.navigate("Date",{datetime:date})}>
+                    <View>
+                        <Text>Ngày khởi hành</Text>
+                        <Text style={{ fontSize: 20, color: 'black', fontWeight: 'bold' }}>{date}</Text>
+                    </View>
+                    <IconFontisto name="date" size={20} color='red'></IconFontisto>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => nextPage()} >
+                    <View style={styles.BtnSearch}>
+                        <Text style={{ alignSelf: "center", color: "white", fontSize: 15 }}>Tìm chuyến</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
+
+            <View style={{ marginTop: 190, padding: 25 }}>
+                <Text style={{ fontSize: 18, fontWeight: "bold", color: "black", marginTop: 10 }}>DỊCH VỤ KHÁC</Text>
+                <ScrollView horizontal>
+                    <View style={{ flexDirection: 'row', marginTop: 20 }}>
+                    <TouchableOpacity onPress={() => navigation.navigate("VeMayBay")}>
+                            <View style={styles.News}>
+                                <Image style={styles.ImageNews} source={require('../assets/Images/panner2.jpg')} />
+                                <Text style={styles.NameNews}>VÉ MÁY BAY</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ flexDirection: 'row', marginTop: 20 }}>
+                        <TouchableOpacity >
+                            <View style={styles.News}>
+                                <Image style={styles.ImageNews} source={require('../assets/Images/panner4.jpg')} />
+                                <Text style={styles.NameNews}>THUÊ XE</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+            </View>
+
+        </ScrollView>
+    )
+}
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#FFFFFF"
+    },
+    banner: {
+        width: "100%",
+        height: 260,
+    },
+    bannerImg: {
+        width: "100%",
+        height: 260,
+    },
+    bannerText: {
+        position: "absolute",
+        padding: 25,
+        marginTop: 32,
+    },
+    bannerText1: {
+        fontWeight: "bold",
+        fontSize: 25,
+        color: "black",
+    },
+    search: {
+        width: "100%",
+        padding: 25,
+        position: "absolute",
+        top: 174
+    },
+    searchAddress: {
+        paddingHorizontal: 10,
+        borderRadius: 15,
+        elevation: 4,
+        shadowColor: '#555555',
+        backgroundColor: '#FFFFFF',
+    },
+    searchAddressTo: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingVertical: 8,
+
+    },
+    searchAddressName: {
+        paddingHorizontal: 10,
+    },
+    line: {
+        height: 1,
+        marginLeft: 30,
+        backgroundColor: "#C0C0C0",
+    },
+    searchDate: {
+        paddingHorizontal: 37,
+        borderRadius: 15,
+        elevation: 4,
+        shadowColor: '#555555',
+        backgroundColor: '#FFFFFF',
+        marginVertical: 14,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 8,
+    },
+    BtnSearch: {
+        borderRadius: 15,
+        elevation: 2,
+        shadowColor: '#555555',
+        backgroundColor: '#642EFE',
+        padding: 15,
+    },
+    News: {
+        backgroundColor: '#58ACFA',
+        borderRadius: 15,
+        width: 300,
+        height: 300,
+        overflow: 'hidden',
+        marginRight: 12,
+        elevation: 2,
+        shadowColor: '#555555',
+    },
+    ImageNews: {
+        width: '100%',
+        height: 250,
+    },
+    NameNews: {
+        fontWeight: 'bold',
+        fontSize: 18,
+        overflow: 'hidden',
+        padding: 8,
+        color: '#fff',
+        textAlign:'center'
+    },
+    Icon: {
+        padding: 12,
+        width: 42,
+        top: 35,
+        left: 250,
+        zIndex: 9000,
+        backgroundColor: '#E6E6FA',
+        borderRadius: 10,
+        position: 'absolute',
+        elevation: 4,
+        shadowColor: '#555555',
+    }
+
+})
+export default HomeScreen;

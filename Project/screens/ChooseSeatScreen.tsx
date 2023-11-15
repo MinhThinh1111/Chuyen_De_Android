@@ -23,7 +23,7 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
     const GhetGheXeByChuyenDi = async () => {
         // Lấy danh sách ghế đã đặt theo chuyến đi
         try {
-            const res = await fetch('http://192.168.1.2:3000/chongoi/search/' + Id_ChuyenDi);
+            const res = await fetch('http://192.168.1.103:3000/chongoi/search/' + Id_ChuyenDi);
             const data = await res.json();
             if (data != null) {
                 for (let index = 0; index < data.length; index++) {
@@ -36,7 +36,7 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
 
         // Lấy danh sách ghế tầng 1
         try {
-            const res = await fetch('http://192.168.1.2:3000/ghexe/search/' + Id_Xe + '/1');
+            const res = await fetch('http://192.168.1.103:3000/ghexe/search/' + Id_Xe + '/1');
             const data = await res.json();
 
             if (data != null) {
@@ -59,7 +59,7 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
 
         // Lấy danh sách ghế tầng 2
         try {
-            const res = await fetch('http://192.168.1.2:3000/ghexe/search/' + Id_Xe + '/2');
+            const res = await fetch('http://192.168.1.103:3000/ghexe/search/' + Id_Xe + '/2');
             const data = await res.json();
             if (data != null) {
                 const List: any = [];

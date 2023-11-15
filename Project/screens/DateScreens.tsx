@@ -25,21 +25,21 @@ const DateScreens = ({route,navigation}:any) => {
 
     return (  
         <>
-            <StatusBar translucent={true} backgroundColor="#FF7256" barStyle="dark-content"></StatusBar>
+            <StatusBar translucent={true} backgroundColor="#819FF7" barStyle="dark-content"></StatusBar>
             <Text style={styles.datePicker}>
-                Chọn ngày khởi hành thôi
+                Chọn thời gian khởi hành
             </Text>
             <View >
                 
-                <TouchableOpacity style={styles.Icon} onPress={()=> navigation.goBack()}><Icon  name="close" size={20} color="red" /></TouchableOpacity>
+                {/* <TouchableOpacity style={styles.Icon} onPress={()=> navigation.goBack()}><Icon  name="close" size={20} color="red" /></TouchableOpacity> */}
        
                <DatePicker
                     options={{
-                        backgroundColor: '#f7f5f5',
+                        backgroundColor: '#fff',
                         textHeaderColor: 'black',
                         textDefaultColor: 'black',
                         selectedTextColor: '#fff',
-                        mainColor: '#F4722B',
+                        mainColor: '#819FF7',
                         textSecondaryColor: 'black',
                         borderColor: 'rgba(122, 146, 165, 0.1)',
                     }}
@@ -60,7 +60,7 @@ const DateScreens = ({route,navigation}:any) => {
 const styles = StyleSheet.create({
     datePicker: {
         marginTop: 23,
-        backgroundColor: "#FF7256",
+        backgroundColor: "#819FF7",
         paddingHorizontal: 16,
         paddingVertical: 60,
         fontSize: 25,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
       top:-20,
       left:40,
       zIndex:9000,
-      backgroundColor:'#E6E6FA',
+      backgroundColor:'#819FF7',
       borderRadius:10,
       position: 'absolute',
       elevation: 4,

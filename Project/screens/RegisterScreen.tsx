@@ -1,4 +1,3 @@
-
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
@@ -34,7 +33,7 @@ const RegisterScreen = ({ route }: any) => {
         
         if (regexPhone.test(isPhone)) {
             // Kiểm tra số điện thoại đã được đăng ký trước đó hay chưa
-            const res = await fetch('http://192.168.1.2:3000/hanhkhach/searchSDT/' + isPhone);
+            const res = await fetch('http://192.168.1.103:3000/hanhkhach/searchSDT/' + isPhone);
             const data = await res.json();
             
             if (data.length > 0) {
@@ -51,7 +50,7 @@ const RegisterScreen = ({ route }: any) => {
                         Email: '',
                         TrangThai: 1
                     }
-                    axios.post('http://192.168.1.2:3000/hanhkhach/', formlogin).then((response) => {
+                    axios.post('http://192.168.1.103:3000/hanhkhach/', formlogin).then((response) => {
                         let Data = {
                             id: response.data.insertId,
                             TenHanhKhach: isName,
@@ -110,7 +109,7 @@ const RegisterScreen = ({ route }: any) => {
                             ''
                         )
                     }
-                     <TouchableOpacity onPress={() => login()} style={{ width: '100%', backgroundColor: '#FF6600', borderRadius: 15, marginTop: 35 }}><Text style={{ alignSelf: 'center', padding: 15, fontSize: 16, color: 'white' }}>Đăng ký</Text></TouchableOpacity>
+                     <TouchableOpacity onPress={() => login()} style={{ width: '100%', backgroundColor: '#819FF7', borderRadius: 15, marginTop: 35 }}><Text style={{ alignSelf: 'center', padding: 15, fontSize: 16, color: 'white' }}>Đăng ký</Text></TouchableOpacity>
                 </View>
             </View> 
         </ScrollView>
@@ -118,7 +117,7 @@ const RegisterScreen = ({ route }: any) => {
 }
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: '#FF6600',
+        backgroundColor: '#819FF7',
         height: 80
     },
     phone: {

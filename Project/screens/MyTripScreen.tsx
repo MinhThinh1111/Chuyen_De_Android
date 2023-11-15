@@ -14,7 +14,7 @@ const MyTripScreen = ({ route, navigation }: any) => {
 
     // Nếu không có tham số route, thực hiện gửi HTTP request để lấy thông tin vé xe hiện tại
     if (route.params == undefined) {
-        axios.get('http://192.168.1.2:3000/vexe/khachhang/' + IsNote.id + '/1').then((response) => {
+        axios.get('http://192.168.1.103:3000/vexe/khachhang/' + IsNote.id + '/1').then((response) => {
             SetVeXeHienTai(response.data)
         });
     }
@@ -28,12 +28,12 @@ const MyTripScreen = ({ route, navigation }: any) => {
     const onPress = async (id: any) => {
         if (id == 2) {
             // Gửi HTTP request để lấy thông tin vé xe đã đi
-            axios.get('http://192.168.1.2:3000/vexe/khachhang/' + IsNote.id + '/2').then((response) => {
+            axios.get('http://192.168.1.103:3000/vexe/khachhang/' + IsNote.id + '/2').then((response) => {
                 setVeXeDaDi(response.data)
             });
         } else {
             // Gửi HTTP request để lấy thông tin vé xe đã hủy
-            axios.get('http://192.168.1.2:3000/vexe/khachhang/' + IsNote.id + '/3').then((response) => {
+            axios.get('http://192.168.1.103:3000/vexe/khachhang/' + IsNote.id + '/3').then((response) => {
                 setVeXeDaHuy(response.data)
             });
         }
@@ -46,7 +46,7 @@ const MyTripScreen = ({ route, navigation }: any) => {
             <View style={styles.header}>
                 <Text style={styles.txtHeader}>Lịch sử mua vé</Text>
             </View>
-            <View style={{ backgroundColor: '#FF6600' }}>
+            <View style={{ backgroundColor: '#819FF7' }}>
                 <View style={{ backgroundColor: 'white', height: '100%', borderRadius: 30, padding: 15 }}>
                     <View style={styles.status}>
 

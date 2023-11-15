@@ -29,7 +29,7 @@ const BookTicket = ({ route, navigation }: any) => {
 
         // Lấy danh sách điểm xuất phát từ API
         try {
-            const res = await fetch('http://192.168.1.2:3000/diemxe/huyen/' + id[0]);
+            const res = await fetch('http://192.168.1.103:3000/diemxe/huyen/' + id[0]);
             const data = await res.json();
             setBatDau(data);
         } catch (err) {
@@ -39,7 +39,7 @@ const BookTicket = ({ route, navigation }: any) => {
         // Lấy danh sách điểm đến từ API
         try {
             
-            const res = await fetch('http://192.168.1.2:3000/diemxe/huyen/' + id[1]);
+            const res = await fetch('http://192.168.1.103:3000/diemxe/huyen/' + id[1]);
             const data = await res.json();
             setBatCuoi(data);
         } catch (err) {
@@ -67,7 +67,7 @@ const BookTicket = ({ route, navigation }: any) => {
         try {
             // Kiểm tra trạng thái ghế trước khi đặt vé
             for (let index = 0; index < data.length; index++) {
-                axios.get('http://192.168.1.2:3000/chongoi/check/' + Id_ChuyenDi + '/' + data[index].Id).then((response) => {
+                axios.get('http://192.168.1.103:3000/chongoi/check/' + Id_ChuyenDi + '/' + data[index].Id).then((response) => {
                     if (response.data.Id != undefined) {
                         Alert.alert('Thông báo', 'Lỗi hệ thống khi đặt vé')
                         navigation.navigate('Home')
@@ -76,12 +76,12 @@ const BookTicket = ({ route, navigation }: any) => {
             }
 
             // Cập nhật số ghế trống trong chuyến đi
-            axios.get('http://192.168.1.2:3000/chuyendi/' + Id_ChuyenDi).then((response) => {
+            axios.get('http://192.168.1.103:3000/chuyendi/' + Id_ChuyenDi).then((response) => {
                 let updatechuyendi = {
                     Id: response.data.Id,
                     SoGheTrong: response.data.SoGheTrong - data.length
                 }
-                axios.put('http://192.168.1.2:3000/chuyendi/updateSoGheTrong', updatechuyendi).then((response) => {
+                axios.put('http://192.168.1.103:3000/chuyendi/updateSoGheTrong', updatechuyendi).then((response) => {
                 })
             });
 
@@ -96,7 +96,7 @@ const BookTicket = ({ route, navigation }: any) => {
                 thanhtoan: 1
 
             }
-            axios.post('http://192.168.1.2:3000/vexe/', formVeXe).then((response) => {
+            axios.post('http://192.168.1.103:3000/vexe/', formVeXe).then((response) => {
                 for (let index = 0; index < data.length; index++) {
                     let formChongoi = {
                         Id_VeXe: response.data.insertId,
@@ -105,17 +105,17 @@ const BookTicket = ({ route, navigation }: any) => {
                         Id_ChuyenDi: Id_ChuyenDi,
 
                     }
-                    axios.post('http://192.168.1.2:3000/chongoi/', formChongoi).then((response) => {
+                    axios.post('http://192.168.1.103:3000/chongoi/', formChongoi).then((response) => {
                     });
                 }
 
                 // Cập nhật số ghế trống sau khi đặt vé
-                axios.get('http://192.168.1.2:3000/chuyendi/' + Id_ChuyenDi).then((response) => {
+                axios.get('http://192.168.1.103:3000/chuyendi/' + Id_ChuyenDi).then((response) => {
                     let updatechuyendi = {
                         Id: response.data.Id,
                         SoGheTrong: response.data.SoGheTrong - data.length
                     }
-                    axios.put('http://192.168.1.2:3000/chuyendi/updateSoGheTrong', updatechuyendi).then((response) => {    
+                    axios.put('http://192.168.1.103:3000/chuyendi/updateSoGheTrong', updatechuyendi).then((response) => {    
                         Alert.alert('Thông báo', 'Đặt Vé Thành Công')
                         navigation.navigate('MyTric')
                     })
@@ -133,7 +133,7 @@ const BookTicket = ({ route, navigation }: any) => {
     return (
         <>
             <StatusBar translucent={true} backgroundColor={'transparent'} barStyle="dark-content"></StatusBar>
-            <View style={{ height: 38, backgroundColor: '#FF6600' }}></View>
+            <View style={{ height: 38, backgroundColor: '#819FF7' }}></View>
             <View style={{ justifyContent: "space-between", flexDirection: 'row', padding: 15 }}>
                 <TouchableOpacity onPress={() => navigation.goBack()}><IconIonicons name="chevron-back" size={28} color="black" /></TouchableOpacity>
                 <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20 }}>Chọn điểm đón và trả</Text>

@@ -13,8 +13,8 @@ const AddressToScreens = ({ route, navigation }: any) => {
     // Hàm lấy danh sách tỉnh/thành phố từ API
     const getTinh = async () => {
         try {
-            // const res = await fetch('http://192.168.1.2:3000/tinh');
-            const res = await fetch('http://192.168.1.2:3000/tinh');
+            // const res = await fetch('http://192.168.1.103:3000/tinh');
+            const res = await fetch('http://192.168.1.103:3000/tinh');
             const data = await res.json();
             setListTinh(data);
         } catch (err) {
@@ -25,8 +25,8 @@ const AddressToScreens = ({ route, navigation }: any) => {
     // Hàm lấy danh sách quận/huyện dựa trên ID tỉnh/thành phố từ API
     const getHuyenXa = async (id: any) => {
         try {
-            // const res = await fetch('http://192.168.1.2:3000/quanhuyen/IdTinh/'+ id);
-            const res = await fetch('http://192.168.1.2:3000/quanhuyen/IdTinh/'+ id);
+            // const res = await fetch('http://192.168.1.103:3000/quanhuyen/IdTinh/'+ id);
+            const res = await fetch('http://192.168.1.103:3000/quanhuyen/IdTinh/'+ id);
             const data = await res.json();
             setListHuyen(data);
         } catch (err) {

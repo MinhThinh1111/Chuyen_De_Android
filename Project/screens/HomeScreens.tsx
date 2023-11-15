@@ -94,7 +94,7 @@ const HomeScreen = ({ route, navigation }: any) => {
         await AsyncStorage.setItem('idHuyen', datahuyen);
 
         // Gọi API để lấy thông tin về chuyến đi và chuyển sang màn hình TripList
-        const res = await fetch('http://192.168.1.2:3000/lotrinh/search/' + idToAdderss + '/' + idFromAdderss);
+        const res = await fetch('http://192.168.1.103:3000/lotrinh/search/' + idToAdderss + '/' + idFromAdderss);
         const data = await res.json();
 
         navigation.navigate('TripList', { idLoTrinh: data.Id, NgayDi: date, toAdderss: toAdderss, fromAdderss: fromAdderss });
@@ -130,7 +130,7 @@ const HomeScreen = ({ route, navigation }: any) => {
                             <TouchableOpacity onPress={() => navigation.navigate("AddresTo", { address: 'to' })}>        
                                 {
                                     toAdderss == null || toAdderss.length == 0 ?
-                                    <Text style={{ fontWeight: "bold", color: 'black', fontSize: 20 }}>Nơi khởi hành</Text>
+                                    <Text style={{ fontWeight: "bold", color: 'black', fontSize: 20 }}>Nơi đi</Text>
                                     :
                                     <Text style={{ fontWeight: "bold", color: 'black', fontSize: 20 }}>{toAdderss}</Text>                                    
                                 }
@@ -145,7 +145,7 @@ const HomeScreen = ({ route, navigation }: any) => {
                             <TouchableOpacity onPress={() => navigation.navigate("AddresTo", { address: 'from' })}>        
                                 {
                                     fromAdderss == null || fromAdderss.length == 0 ?
-                                    <Text style={{ fontWeight: "bold", color: 'black', fontSize: 20 }}>Bạn muốn đi đâu</Text>
+                                    <Text style={{ fontWeight: "bold", color: 'black', fontSize: 20 }}>Nơi đến</Text>
                                     :
                                     <Text style={{ fontWeight: "bold", color: 'black', fontSize: 20 }}>{fromAdderss}</Text>                                    
                                 }

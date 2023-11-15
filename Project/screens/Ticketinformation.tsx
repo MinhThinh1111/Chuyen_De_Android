@@ -14,7 +14,7 @@ const Ticketinformation = ({ route, navigation }: any) => {
    // Hàm xử lý khi người dùng hủy vé
    const DeletVeXe = async () => {
       // Gửi request lấy thông tin chuyến đi từ server
-      axios.get('http://192.168.1.102:3000/chuyendi/' + data.Id_ChuyenDi).then((response) => {
+      axios.get('http://192.168.1.103:3000/chuyendi/' + data.Id_ChuyenDi).then((response) => {
          // Chuẩn bị dữ liệu để cập nhật số ghế trống cho chuyến đi
          let updatechuyendi = {
             Id: data.Id_ChuyenDi,
@@ -22,7 +22,7 @@ const Ticketinformation = ({ route, navigation }: any) => {
          };
 
          // Gửi request cập nhật số ghế trống cho chuyến đi
-         axios.put('http://192.168.1.102:3000/chuyendi/updateSoGheTrong', updatechuyendi).then((response) => {
+         axios.put('http://192.168.1.103:3000/chuyendi/updateSoGheTrong', updatechuyendi).then((response) => {
             // Chuẩn bị dữ liệu để cập nhật trạng thái vé xe
             let updatevexe = {
                Id: data.Id,
@@ -30,7 +30,7 @@ const Ticketinformation = ({ route, navigation }: any) => {
             };
 
             // Gửi request cập nhật trạng thái vé xe
-            axios.put('http://192.168.1.102:3000/vexe/IdVeXe', updatevexe).then((response) => {
+            axios.put('http://192.168.1.103:3000/vexe/IdVeXe', updatevexe).then((response) => {
                // Chuẩn bị dữ liệu để cập nhật trạng thái chỗ ngồi
                let updateChongoi = {
                   TrangThai: 3,
@@ -38,7 +38,7 @@ const Ticketinformation = ({ route, navigation }: any) => {
                };
 
                // Gửi request cập nhật trạng thái chỗ ngồi
-               axios.put('http://192.168.1.102:3000/chongoi/updateIdVeXe', updateChongoi).then((response) => {
+               axios.put('http://192.168.1.103:3000/chongoi/updateIdVeXe', updateChongoi).then((response) => {
                   // Hiển thị thông báo hủy vé thành công và chuyển hướng về trang MyTric
                   Alert.alert("Thông báo", "Hủy vé thành công");
                   navigation.navigate('MyTric');

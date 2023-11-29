@@ -11,10 +11,14 @@ const Ticketinformation = ({ route, navigation }: any) => {
    // Sử dụng hook useNotes để lấy thông tin ghi chú
    const { IsNote, SetNote, getNote }: any = useNotes();
 
+   const Bill = () => {
+      navigation.navigate('BillInformation');
+  }
+
    // Hàm xử lý khi người dùng hủy vé
    const DeletVeXe = async () => {
       // Gửi request lấy thông tin chuyến đi từ server
-      axios.get('http://192.168.1.103:3000/chuyendi/' + data.Id_ChuyenDi).then((response) => {
+      axios.get('http://192.168.1.118:3000/chuyendi/' + data.Id_ChuyenDi).then((response) => {
          // Chuẩn bị dữ liệu để cập nhật số ghế trống cho chuyến đi
          let updatechuyendi = {
             Id: data.Id_ChuyenDi,
@@ -22,7 +26,7 @@ const Ticketinformation = ({ route, navigation }: any) => {
          };
 
          // Gửi request cập nhật số ghế trống cho chuyến đi
-         axios.put('http://192.168.1.103:3000/chuyendi/updateSoGheTrong', updatechuyendi).then((response) => {
+         axios.put('http://192.168.1.118:3000/chuyendi/updateSoGheTrong', updatechuyendi).then((response) => {
             // Chuẩn bị dữ liệu để cập nhật trạng thái vé xe
             let updatevexe = {
                Id: data.Id,
@@ -30,15 +34,15 @@ const Ticketinformation = ({ route, navigation }: any) => {
             };
 
             // Gửi request cập nhật trạng thái vé xe
-            axios.put('http://192.168.1.103:3000/vexe/IdVeXe', updatevexe).then((response) => {
+            axios.put('http://192.168.1.118:3000/vexe/IdVeXe', updatevexe).then((response) => {
                // Chuẩn bị dữ liệu để cập nhật trạng thái chỗ ngồi
                let updateChongoi = {
                   TrangThai: 3,
-                  Id_VeXe : data.Id,
+                  Id_VeXe: data.Id,
                };
 
                // Gửi request cập nhật trạng thái chỗ ngồi
-               axios.put('http://192.168.1.103:3000/chongoi/updateIdVeXe', updateChongoi).then((response) => {
+               axios.put('http://192.168.1.118:3000/chongoi/updateIdVeXe', updateChongoi).then((response) => {
                   // Hiển thị thông báo hủy vé thành công và chuyển hướng về trang MyTric
                   Alert.alert("Thông báo", "Hủy vé thành công");
                   navigation.navigate('MyTric');
@@ -78,14 +82,19 @@ const Ticketinformation = ({ route, navigation }: any) => {
             <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold', marginTop: 15, marginBottom: 4 }}>Thông tin hành khách</Text>
             <Text style={{ color: 'black', fontSize: 18 }}>Họ và tên: {IsNote.TenHanhKhach}</Text>
             <Text style={{ color: 'black', fontSize: 18 }}>Số điện thoại: {IsNote.SDT}</Text>
-            
-            {checkve == 1 && 
+
+            {checkve == 1 &&
                <TouchableOpacity onPress={() => DeletVeXe()} style={{ borderColor: '#b2b4b8', borderWidth: 1, marginTop: 25 }}><Text style={{ padding: 6, color: 'black', fontSize: 18, alignSelf: 'center' }}>Hủy vé</Text></TouchableOpacity>
             }
-            
+            <TouchableOpacity onPress={() => Bill()} style={{ borderColor: '#b2b4b8', borderWidth: 1, marginTop: 25 }}><Text style={{ padding: 6, color: 'black', fontSize: 18, alignSelf: 'center' }}>Thanh Toán</Text></TouchableOpacity>
+           
+           
+
 
          </View>
+         
       </>
+      
    )
 }
 

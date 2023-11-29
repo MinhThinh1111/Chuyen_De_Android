@@ -26,7 +26,7 @@ const LoginPhoneScreen = () => {
 
         if (regexPhone.test(isPhone)) {
             // Gửi yêu cầu đến API để kiểm tra số điện thoại
-            const res = await fetch('http://192.168.1.103:3000/hanhkhach/searchSDT/' + isPhone);
+            const res = await fetch('http://192.168.1.118:3000/hanhkhach/searchSDT/' + isPhone);
             const data = await res.json();
 
             if (data.length > 0) {
@@ -51,15 +51,15 @@ const LoginPhoneScreen = () => {
             setcheckPhone(true);
             setIsPhoneRegistered(true);
         }
-        
+
     }
 
     // Sử dụng useEffect để kiểm tra nếu đã có thông tin đăng nhập từ trước thì chuyển sang màn hình App
     useEffect(() => {
-      
-        if(IsNote.SDT != undefined){
+
+        if (IsNote.SDT != undefined) {
             navigation.navigate("App")
-        }   
+        }
     })
     return (
         <>
@@ -84,8 +84,8 @@ const LoginPhoneScreen = () => {
                     }
                     <TouchableOpacity onPress={() => login()} style={{ width: '100%', backgroundColor: '#819FF7', borderRadius: 15, marginTop: 35 }}><Text style={{ alignSelf: 'center', padding: 15, fontSize: 16, color: 'white' }}>Tiếp tục</Text></TouchableOpacity>
                     <Text style={{ color: 'black', fontSize: 14, fontWeight: '400', marginTop: 30, textAlign: 'center' }}>Bạn chưa có tài khoản!</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate("LoginName", { phone: isPhone })} style={{ width: '100%', borderRadius: 15, marginTop: 0, alignSelf: 'center', }}><Text style={{ fontWeight: '800',alignSelf: 'center', padding: 10, fontSize: 16, color: 'black' }}>Đăng ký ngay</Text></TouchableOpacity>
-                
+                    <TouchableOpacity onPress={() => navigation.navigate("LoginName", { phone: isPhone })} style={{ width: '100%', borderRadius: 15, marginTop: 0, alignSelf: 'center', }}><Text style={{ fontWeight: '800', alignSelf: 'center', padding: 10, fontSize: 16, color: 'black' }}>Đăng ký ngay</Text></TouchableOpacity>
+
                 </View>
             </View>
         </>

@@ -14,6 +14,7 @@ import MyNote from "./ConText/MyNote";
 import LoginPhoneScreen from "./screens/LoginPhoneScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import Ticketinformation from "./screens/Ticketinformation";
+import BillInformationScreen from "./screens/BillInformationScreen";
 
 
 
@@ -37,6 +38,7 @@ const App = () => {
             <Stack.Screen name="ChooseSeat" component={ChooseSeatScreen}></Stack.Screen>
             <Stack.Screen name="BookTicket" component={BookTicket}></Stack.Screen>
             <Stack.Screen name="TicketInform" component={Ticketinformation}></Stack.Screen>
+            <Stack.Screen name="BillInformation" component={BillInformationScreen}></Stack.Screen>
           </Stack.Navigator>
         </MyNote>
       </NavigationContainer>

@@ -7,6 +7,7 @@ import IconIonicons from "react-native-vector-icons/Ionicons";
 import HomeScreen from "../HomeScreens";
 import AccountScreen from "../AccountScreens";
 import MyTripScreen from "../MyTripScreen";
+import BillInformationScreen from "../BillInformationScreen";
 
 // Tạo một functional component TabNavigator
 const TabNavigator = () => {
@@ -23,6 +24,8 @@ const TabNavigator = () => {
           : 'home-outline';
       } else if (route.name === 'MyTric') {
         iconName = focused ? 'newspaper-outline' : 'newspaper-outline';
+      }else if (route.name === 'BillInformation') {
+        iconName = focused ? 'cash-outline' : 'cash-outline';
       }
       else if (route.name === 'Account') {
         iconName = focused ? 'person-outline' : 'person-outline';
@@ -43,6 +46,7 @@ const TabNavigator = () => {
       <Tab.Navigator screenOptions={optionScreen}>     
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="MyTric" component={MyTripScreen} />
+        <Tab.Screen name="BillInformation" component={BillInformationScreen} />
         <Tab.Screen name="Account" component={AccountScreen} />
       </Tab.Navigator>
   )

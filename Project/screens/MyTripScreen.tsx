@@ -14,7 +14,7 @@ const MyTripScreen = ({ route, navigation }: any) => {
 
     // Nếu không có tham số route, thực hiện gửi HTTP request để lấy thông tin vé xe hiện tại
     if (route.params == undefined) {
-        axios.get('http://192.168.1.103:3000/vexe/khachhang/' + IsNote.id + '/1').then((response) => {
+        axios.get('http://192.168.1.118:3000/vexe/khachhang/' + IsNote.id + '/1').then((response) => {
             SetVeXeHienTai(response.data)
         });
     }
@@ -28,12 +28,12 @@ const MyTripScreen = ({ route, navigation }: any) => {
     const onPress = async (id: any) => {
         if (id == 2) {
             // Gửi HTTP request để lấy thông tin vé xe đã đi
-            axios.get('http://192.168.1.103:3000/vexe/khachhang/' + IsNote.id + '/2').then((response) => {
+            axios.get('http://192.168.1.118:3000/vexe/khachhang/' + IsNote.id + '/2').then((response) => {
                 setVeXeDaDi(response.data)
             });
         } else {
             // Gửi HTTP request để lấy thông tin vé xe đã hủy
-            axios.get('http://192.168.1.103:3000/vexe/khachhang/' + IsNote.id + '/3').then((response) => {
+            axios.get('http://192.168.1.118:3000/vexe/khachhang/' + IsNote.id + '/3').then((response) => {
                 setVeXeDaHuy(response.data)
             });
         }
@@ -83,7 +83,7 @@ const MyTripScreen = ({ route, navigation }: any) => {
                     {check == 1 &&
                         <FlatList data={VeXeHienTai}
                             renderItem={({ item }: any) =>
-                                <TouchableOpacity onPress={() => NextPage(item,1)}>
+                                <TouchableOpacity onPress={() => NextPage(item, 1)}>
                                     <View style={styles.trip}>
                                         <View style={{ flexDirection: 'row', borderRadius: 25, backgroundColor: '#819FF7', padding: 22 }}>
                                             <View style={{ width: '35%' }}>
@@ -92,7 +92,7 @@ const MyTripScreen = ({ route, navigation }: any) => {
                                                 <Text style={{ color: '#3b3938', fontSize: 17 }}>Ngày</Text>
                                                 <Text style={{ color: 'black', fontSize: 18, paddingBottom: 8 }}>{item.NgayDi}</Text>
                                                 <Text style={{ color: '#3b3938', fontSize: 17 }}>Trạng thái</Text>
-                                                <Text style={{ color: 'black', fontSize: 18 }}>{(item.thanhtoan == 1)? 'Chưa thanh toán tiền vé': 'Đã thanh toán tiền vé'}</Text>
+                                                <Text style={{ color: 'black', fontSize: 18 }}>{(item.thanhtoan == 1) ? 'Chưa thanh toán tiền vé' : 'Đã thanh toán tiền vé'}</Text>
                                             </View>
                                             <View style={{ width: 1, height: '100%', backgroundColor: 'white' }}></View>
                                             <View style={{ width: '64%', marginLeft: 10 }}>
@@ -113,7 +113,7 @@ const MyTripScreen = ({ route, navigation }: any) => {
                     {check == 2 &&
                         <FlatList data={VeXeDaDi}
                             renderItem={({ item }: any) =>
-                                <TouchableOpacity onPress={() => NextPage(item,2)}>
+                                <TouchableOpacity onPress={() => NextPage(item, 2)}>
                                     <View style={styles.trip}>
                                         <View style={{ flexDirection: 'row', borderRadius: 25, backgroundColor: '#819FF7', padding: 22 }}>
                                             <View style={{ width: '35%' }}>
@@ -143,7 +143,7 @@ const MyTripScreen = ({ route, navigation }: any) => {
                     {check == 3 &&
                         <FlatList data={VeXeDaHuy}
                             renderItem={({ item }: any) =>
-                                <TouchableOpacity onPress={() => NextPage(item,2)}>
+                                <TouchableOpacity onPress={() => NextPage(item, 2)}>
                                     <View style={styles.trip}>
                                         <View style={{ flexDirection: 'row', borderRadius: 25, backgroundColor: '#819FF7', padding: 22 }}>
                                             <View style={{ width: '35%' }}>

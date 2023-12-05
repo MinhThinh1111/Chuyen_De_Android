@@ -28,7 +28,7 @@ const AccountScreen = ({ navigation }: any) => {
             <View style={{paddingTop: 100}}>
                 <TouchableOpacity style={styles.menu}>
                     <View style={{ flexDirection: 'row', paddingVertical: 15 }}>
-                        <Icon name="book" size={22} color="red" />
+                        <Icon name="edit" size={22} color="red" />
                         <Text style={{ fontSize: 18, paddingLeft: 13 }}>Cập nhật thông tin</Text>
                     </View>
                     <View>

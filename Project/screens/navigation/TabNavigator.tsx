@@ -9,11 +9,9 @@ import AccountScreen from "../AccountScreens";
 import MyTripScreen from "../MyTripScreen";
 import BillInformationScreen from "../BillInformationScreen";
 
-// Tạo một functional component TabNavigator
+
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator();
-
-  // Hàm optionScreen để cấu hình các tuỳ chọn cho mỗi tab
   const optionScreen = ({route} : any) =>({
     tabBarIcon: ({ focused, color, size } : any) => {
       let iconName = ""

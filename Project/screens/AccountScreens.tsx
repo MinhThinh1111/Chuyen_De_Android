@@ -5,14 +5,12 @@ import Icon from 'react-native-vector-icons/Feather';
 import { useNotes } from "../ConText/MyNote";
 const AccountScreen = ({ navigation }: any) => {
     const { IsNote, SetNote, getNote }: any = useNotes()
-    // Hàm login để xử lý khi người dùng đăng xuất
+    
     const login = () => {
-        SetNote({}) // clear thông tin người dùng
+        SetNote({})
         AsyncStorage.clear()
-        navigation.replace('LoginPhone') // chuyển về màn hình login
+        navigation.replace('LoginPhone')
     }
-
-
     return (
         <>
             <StatusBar translucent={true} backgroundColor={'transparent'} barStyle="dark-content"></StatusBar>

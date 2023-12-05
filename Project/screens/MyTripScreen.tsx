@@ -1,38 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar, StyleSheet, Text, TouchableOpacity, View, FlatList } from "react-native";
-import { useNotes } from '../ConText/MyNote';  // Import hook useNotes từ context
-import axios from 'axios';  // Import thư viện axios để gửi các HTTP requests
+import { useNotes } from '../ConText/MyNote';
+import axios from 'axios';
 
 
 const MyTripScreen = ({ route, navigation }: any) => {
-    // Sử dụng hook useNotes từ context để lấy thông tin ghi chú và các hàm liên quan
+    
     const { IsNote, IsVeXe, SetVeXe, SetNote, getNote }: any = useNotes()
-    const [VeXeHienTai, SetVeXeHienTai] = useState([])  // State lưu trữ thông tin vé xe hiện tại
-    const [VeXeDaDi, setVeXeDaDi] = useState([])  // State lưu trữ thông tin vé xe đã đi
-    const [VeXeDaHuy, setVeXeDaHuy] = useState([])  // State lưu trữ thông tin vé xe đã hủy
-    const [check, setcheck] = useState(1)  // State để kiểm tra loại vé hiện tại (1: Hiện tại, 2: Đã đi, 3: Đã hủy)
+    const [VeXeHienTai, SetVeXeHienTai] = useState([])  
+    const [VeXeDaDi, setVeXeDaDi] = useState([])  
+    const [VeXeDaHuy, setVeXeDaHuy] = useState([])  
+    const [check, setcheck] = useState(1)
 
-    // Nếu không có tham số route, thực hiện gửi HTTP request để lấy thông tin vé xe hiện tại
     if (route.params == undefined) {
         axios.get('http://192.168.1.11:3000/vexe/khachhang/' + IsNote.id + '/1').then((response) => {
             SetVeXeHienTai(response.data)
         });
     }
 
-    // Hàm chuyển trang và truyền dữ liệu vé xe tới component TicketInform
     const NextPage = (item: any, checkve: any) => {
         navigation.navigate('TicketInform', { data: item, checkve: checkve });
     }
 
-    // Hàm xử lý khi người dùng chọn tab "Hiện tại", "Đã đi", hoặc "Đã hủy"
     const onPress = async (id: any) => {
         if (id == 2) {
-            // Gửi HTTP request để lấy thông tin vé xe đã đi
             axios.get('http://192.168.1.11:3000/vexe/khachhang/' + IsNote.id + '/2').then((response) => {
                 setVeXeDaDi(response.data)
             });
         } else {
-            // Gửi HTTP request để lấy thông tin vé xe đã hủy
             axios.get('http://192.168.1.11:3000/vexe/khachhang/' + IsNote.id + '/3').then((response) => {
                 setVeXeDaHuy(response.data)
             });

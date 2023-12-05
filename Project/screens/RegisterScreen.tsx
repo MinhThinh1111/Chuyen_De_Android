@@ -8,42 +8,31 @@ import axios from "axios";
 import { Image } from "react-native";
 import { ScrollView } from "react-native";
 
-// Component chính cho màn hình đăng ký tên người dùng
 const RegisterScreen = ({ route }: any) => {
-    // Sử dụng hook navigation để điều hướng giữa các màn hình
     const navigation = useNavigation()
 
-    // State để lưu trữ tên người dùng và kiểm tra tính hợp lệ của tên
     const [isName, setName] = useState('')
     const [ischeckName, setcheckName] = useState(false)
-    // const { phone } = route.params;
     const { isNote, SetNote, getNote }: any = useNotes()
-
-    // State để lưu trữ số điện thoại và kiểm tra tính hợp lệ của số điện thoại
     const [isPhone, setPhone] = useState('')
     const [ischeckPhone, setcheckPhone] = useState(false)
 
-    // State để kiểm tra xem số điện thoại đã được đăng ký hay chưa
+   
     const [isPhoneRegistered, setIsPhoneRegistered] = useState(false)
 
-    // Hàm xử lý khi người dùng nhấn nút đăng ký
     const login = async () => {
-        // Regex để kiểm tra tính hợp lệ của số điện thoại
         let regexPhone = new RegExp('(0[1|3|5|7|8|9])+([0-9]{8})')
 
         if (regexPhone.test(isPhone)) {
-            // Kiểm tra số điện thoại đã được đăng ký trước đó hay chưa
             const res = await fetch('http://192.168.1.11:3000/hanhkhach/searchSDT/' + isPhone);
             const data = await res.json();
 
             if (data.length > 0) {
-                // Số điện thoại đã có người đăng ký
                 setIsPhoneRegistered(true)
             } else {
                 setIsPhoneRegistered(false)
 
                 if (isName != '') {
-                    // Nếu tên người dùng không rỗng, thực hiện đăng ký
                     let formlogin = {
                         Ten: isName,
                         Sdt: isPhone,
@@ -61,13 +50,11 @@ const RegisterScreen = ({ route }: any) => {
                         navigation.navigate("App")
                     });
                 } else {
-                    // Nếu tên người dùng rỗng, hiển thị thông báo lỗi
                     setcheckName(true);
                 }
             }
             setcheckPhone(false)
         } else {
-            // Nếu số điện thoại không hợp lệ, hiển thị thông báo lỗi
             setcheckPhone(true)
             setIsPhoneRegistered(true)
         }

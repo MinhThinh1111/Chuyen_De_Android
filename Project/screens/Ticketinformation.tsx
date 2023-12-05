@@ -4,46 +4,35 @@ import { Image, StatusBar, Text, TouchableOpacity, View, Alert } from "react-nat
 import IconIonicons from "react-native-vector-icons/Ionicons";
 import { useNotes } from "../ConText/MyNote";
 
-// Component Ticketinformation nhận các tham số từ route và navigation
+
 const Ticketinformation = ({ route, navigation }: any) => {
-   // Lấy data và checkve từ route.params
    const { data, checkve } = route.params;
-   // Sử dụng hook useNotes để lấy thông tin ghi chú
    const { IsNote, SetNote, getNote }: any = useNotes();
 
    const Bill = () => {
       navigation.navigate('BillInformation');
    }
 
-   // Hàm xử lý khi người dùng hủy vé
    const DeletVeXe = async () => {
-      // Gửi request lấy thông tin chuyến đi từ server
       axios.get('http://192.168.1.11:3000/chuyendi/' + data.Id_ChuyenDi).then((response) => {
-         // Chuẩn bị dữ liệu để cập nhật số ghế trống cho chuyến đi
          let updatechuyendi = {
             Id: data.Id_ChuyenDi,
             SoGheTrong: response.data.SoGheTrong + data.soghe
          };
 
-         // Gửi request cập nhật số ghế trống cho chuyến đi
          axios.put('http://192.168.1.11:3000/chuyendi/updateSoGheTrong', updatechuyendi).then((response) => {
-            // Chuẩn bị dữ liệu để cập nhật trạng thái vé xe
             let updatevexe = {
                Id: data.Id,
                TrangThai: 3,
             };
 
-            // Gửi request cập nhật trạng thái vé xe
             axios.put('http://192.168.1.11:3000/vexe/IdVeXe', updatevexe).then((response) => {
-               // Chuẩn bị dữ liệu để cập nhật trạng thái chỗ ngồi
                let updateChongoi = {
                   TrangThai: 3,
                   Id_VeXe: data.Id,
                };
 
-               // Gửi request cập nhật trạng thái chỗ ngồi
                axios.put('http://192.168.1.11:3000/chongoi/updateIdVeXe', updateChongoi).then((response) => {
-                  // Hiển thị thông báo hủy vé thành công và chuyển hướng về trang MyTric
                   Alert.alert("Thông báo", "Hủy vé thành công");
                   navigation.navigate('MyTric');
                });

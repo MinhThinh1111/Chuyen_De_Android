@@ -6,15 +6,11 @@ import IconFontisto from "react-native-vector-icons/Fontisto";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNotes } from "../ConText/MyNote";
 
-// Component chính của màn hình Home
 const HomeScreen = ({ route, navigation }: any) => {
-    // Lấy ngày hiện tại
     const curentday = new Date().toJSON().slice(0, 10);
 
-    // Sử dụng context để lấy dữ liệu về ghi chú
     const { IsNote }: any = useNotes()
 
-    // Khai báo các state sử dụng trong component
     const [date, setdate] = useState(curentday);
     const [toAdderss, settoAdderss] = useState('');
     const [fromAdderss, setfromAdderss] = useState('');
@@ -23,8 +19,8 @@ const HomeScreen = ({ route, navigation }: any) => {
     const [IdHuyento, setIdHuyento] = useState('');
     const [IdHuyenfrom, setIdHuyenform] = useState('');
 
-    // Xử lý thay đổi thông tin khi nhận tham số từ màn hình khác
-    if (route.params != undefined) {//Kiểm tra route.patams có đc định nghĩa hay k
+    
+    if (route.params != undefined) {
         const { datetime } = route.params;
         const { Idadderss } = route.params;
         const { Tenadderss } = route.params;
@@ -32,21 +28,17 @@ const HomeScreen = ({ route, navigation }: any) => {
         const { Id_Huyen } = route.params;
 
         if (datetime != undefined) {
-            // Xử lý định dạng ngày giờ khi có tham số datetime
             let getYear = datetime.slice(0, 4);
             let getMonth = datetime.slice(5, 7);
             let getDate = datetime.slice(8, 10);
             let date = getYear + '-' + getMonth + '-' + getDate;
             setdate(date);
         } else if (Idadderss != undefined) {
-            // Xử lý khi có tham số Idadderss
             if (checkAdders == 'to') {
-                // Nếu là điểm đi, cập nhật thông tin điểm đi
                 setIdHuyento(Id_Huyen);
                 settoAdderss(Tenadderss);
                 setIdToAdderss(Idadderss);
             } else {
-                // Nếu là điểm đến, cập nhật thông tin điểm đến
                 setIdHuyenform(Id_Huyen);
                 setfromAdderss(Tenadderss);
                 setIdFromAdderss(Idadderss);
@@ -55,13 +47,11 @@ const HomeScreen = ({ route, navigation }: any) => {
         route.params = undefined;
     }
 
-    // Hàm thực hiện việc đổi chỗ nơi đi và nơi đến
     const swapAdderss = async () => {
         let to = toAdderss;
         let idTo = idToAdderss;
         let idtoHuyen = IdHuyento;
 
-        // Swap thông tin giữa điểm đi và điểm đến
         await setIdHuyento(IdHuyenfrom);
         await setIdHuyenform(idtoHuyen);
         await settoAdderss(fromAdderss);
@@ -70,31 +60,23 @@ const HomeScreen = ({ route, navigation }: any) => {
         await setIdFromAdderss(idTo);
     };
 
-    // Hàm xử lý khi người dùng nhấn nút Tìm chuyến
     const nextPage = async () => {
-        // Kiểm tra xem đã chọn điểm đi và điểm đến chưa
         if (idToAdderss == null || idFromAdderss == null) {
             if (idToAdderss == null && idFromAdderss == null) {
-                // Thông báo khi cả điểm đi và điểm đến chưa được chọn
                 Alert.alert('Thông báo', 'Vui lòng chọn nơi khởi hành và nơi bạn muốn đến');
             } else if (idFromAdderss == null) {
-                // Thông báo khi chỉ có điểm đến chưa được chọn
                 Alert.alert('Thông báo', 'Vui lòng chọn nơi bạn muốn đến');
             } else {
-                // Thông báo khi chỉ có điểm đi chưa được chọn
                 Alert.alert('Thông báo', 'Vui lòng chọn nơi khởi hành');
             }
         } else {
             try {
-                // Lưu thông tin huyện vào AsyncStorage
-                //Khai báo biến datahuyen
                 let datahuyen =
                     IdHuyento + ',' +
                     IdHuyenfrom;
 
-                await AsyncStorage.setItem('idHuyen', datahuyen);//sử dụng hàm AsyncStorage.setItem để lưu biến datahuyen
+                await AsyncStorage.setItem('idHuyen', datahuyen);
 
-                // Gọi API để lấy thông tin về chuyến đi và chuyển sang màn hình TripList
                 const res = await fetch('http://192.168.1.11:3000/lotrinh/search/' + idToAdderss + '/' + idFromAdderss);
                 const data = await res.json();
 
@@ -102,8 +84,6 @@ const HomeScreen = ({ route, navigation }: any) => {
             } catch (err) {
                 console.log(err);
             }
-
-            // Nếu có lỗi, chuyển sang màn hình TripList với idLoTrinh = null
             navigation.navigate('TripList', { idLoTrinh: null, NgayDi: date, toAdderss: toAdderss, fromAdderss: fromAdderss });
         }
     };

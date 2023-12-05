@@ -12,12 +12,12 @@ const AddressToScreens = ({ route, navigation }: any) => {
 
     // Hàm lấy danh sách tỉnh/thành phố từ API
     const getTinh = async () => {
+        //Sử dụng cấu trúc try-catch để bắt và xử lý các lỗi có thể xảy ra khi gọi API
         try {
-            // const res = await fetch('http://192.168.1.118:3000/tinh');
-            const res = await fetch('http://192.168.1.118:3000/tinh');
-            const data = await res.json();
-            setListTinh(data);
-        } catch (err) {
+            const res = await fetch('http://192.168.1.11:3000/tinh');//Nếu hàm fetch thành công, kết quả sẽ được lưu vào biến res
+            const data = await res.json();//Gọi phương thức json() của biến res để chuyển đổi dữ liệu từ định dạng JSON sang đối tượng JavaScript, và lưu vào biến data
+            setListTinh(data);//Gọi hàm setListTinh với tham số là biến data, để cập nhật trạng thái của component với dữ liệu về các tỉnh
+        } catch (err) {//nếu không, hàm này sẽ ném ra một lỗi và chuyển sang khối catch.
             console.log(err);
         }
     }
@@ -25,8 +25,8 @@ const AddressToScreens = ({ route, navigation }: any) => {
     // Hàm lấy danh sách quận/huyện dựa trên ID tỉnh/thành phố từ API
     const getHuyenXa = async (id: any) => {
         try {
-            // const res = await fetch('http://192.168.1.118:3000/quanhuyen/IdTinh/'+ id);
-            const res = await fetch('http://192.168.1.118:3000/quanhuyen/IdTinh/' + id);
+            // const res = await fetch('http://192.168.1.11:3000/quanhuyen/IdTinh/'+ id);
+            const res = await fetch('http://192.168.1.11:3000/quanhuyen/IdTinh/' + id);
             const data = await res.json();
             setListHuyen(data);
         } catch (err) {
@@ -35,9 +35,13 @@ const AddressToScreens = ({ route, navigation }: any) => {
     }
 
     // Hàm xử lý khi chọn địa chỉ và chuyển về màn hình chính
-    const getAdderesNavigate = async (Id: any, Ten: any, Id_Huyen: any) => {
+    const getAdderesNavigate = async (Id: any, Ten: any, Id_Huyen: any) => {//Nhận vào ba tham số là Id, Ten và Id_Huyen
+        //Kiểm tra giá trị của biến address, là một biến toàn cục chứa thông tin về loại địa chỉ mà người dùng muốn chọn, là ‘to’ hay ‘from’
+        //Nếu address bằng ‘to’, nghĩa là người dùng muốn chọn địa chỉ đến, thì thực hiện khối lệnh bên trong câu lệnh if
+
         if (address == 'to') {
-            navigation.navigate('Home', { Idadderss: Id, Tenadderss: Ten, checkAdders: 'to', Id_Huyen: Id_Huyen });
+            navigation.navigate('Home', { Idadderss: Id, Tenadderss: Ten, checkAdders: 'to', Id_Huyen: Id_Huyen });//checkAdders là ‘to’ để đánh dấu là địa chỉ đến
+            //Gọi phương thức navigation.navigate với tham số đầu tiên là tên của trang chủ (‘Home’), và tham số thứ hai là một đối tượng chứa các thông tin
         } else {
             navigation.navigate('Home', { Idadderss: Id, Tenadderss: Ten, checkAdders: 'from', Id_Huyen: Id_Huyen });
         }

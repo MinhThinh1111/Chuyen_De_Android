@@ -24,7 +24,7 @@ const HomeScreen = ({ route, navigation }: any) => {
     const [IdHuyenfrom, setIdHuyenform] = useState('');
 
     // Xử lý thay đổi thông tin khi nhận tham số từ màn hình khác
-    if (route.params != undefined) {
+    if (route.params != undefined) {//Kiểm tra route.patams có đc định nghĩa hay k
         const { datetime } = route.params;
         const { Idadderss } = route.params;
         const { Tenadderss } = route.params;
@@ -87,14 +87,15 @@ const HomeScreen = ({ route, navigation }: any) => {
         } else {
             try {
                 // Lưu thông tin huyện vào AsyncStorage
+                //Khai báo biến datahuyen
                 let datahuyen =
                     IdHuyento + ',' +
                     IdHuyenfrom;
 
-                await AsyncStorage.setItem('idHuyen', datahuyen);
+                await AsyncStorage.setItem('idHuyen', datahuyen);//sử dụng hàm AsyncStorage.setItem để lưu biến datahuyen
 
                 // Gọi API để lấy thông tin về chuyến đi và chuyển sang màn hình TripList
-                const res = await fetch('http://192.168.1.118:3000/lotrinh/search/' + idToAdderss + '/' + idFromAdderss);
+                const res = await fetch('http://192.168.1.11:3000/lotrinh/search/' + idToAdderss + '/' + idFromAdderss);
                 const data = await res.json();
 
                 navigation.navigate('TripList', { idLoTrinh: data.Id, NgayDi: date, toAdderss: toAdderss, fromAdderss: fromAdderss });
@@ -106,6 +107,12 @@ const HomeScreen = ({ route, navigation }: any) => {
             navigation.navigate('TripList', { idLoTrinh: null, NgayDi: date, toAdderss: toAdderss, fromAdderss: fromAdderss });
         }
     };
+    const VeMayBay = () => {
+        navigation.navigate('VeMayBay');
+    }
+    const ThueXe = () => {
+        navigation.navigate('ThueXe');
+    }
 
     useEffect(() => {
     }, []);
@@ -174,7 +181,7 @@ const HomeScreen = ({ route, navigation }: any) => {
                 <Text style={{ fontSize: 18, fontWeight: "bold", color: "black", marginTop: 10 }}>DỊCH VỤ KHÁC</Text>
                 <ScrollView horizontal>
                     <View style={{ flexDirection: 'row', marginTop: 20 }}>
-                        <TouchableOpacity onPress={() => navigation.navigate("VeMayBay")}>
+                        <TouchableOpacity onPress={() => VeMayBay()}>
                             <View style={styles.News}>
                                 <Image style={styles.ImageNews} source={require('../assets/Images/panner2.jpg')} />
                                 <Text style={styles.NameNews}>VÉ MÁY BAY</Text>
@@ -182,7 +189,7 @@ const HomeScreen = ({ route, navigation }: any) => {
                         </TouchableOpacity>
                     </View>
                     <View style={{ flexDirection: 'row', marginTop: 20 }}>
-                        <TouchableOpacity >
+                        <TouchableOpacity onPress={() => ThueXe()}>
                             <View style={styles.News}>
                                 <Image style={styles.ImageNews} source={require('../assets/Images/panner4.jpg')} />
                                 <Text style={styles.NameNews}>THUÊ XE</Text>

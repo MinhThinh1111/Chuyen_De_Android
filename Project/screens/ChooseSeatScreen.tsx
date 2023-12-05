@@ -22,36 +22,43 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
     // Hàm gọi API để lấy danh sách ghế xe
     const GhetGheXeByChuyenDi = async () => {
         // Lấy danh sách ghế đã đặt theo chuyến đi
+
+        //Tìm kiếm chỗ ngồi trên xe theo id của chuyến
+        //Sử dụng cấu trúc try-catch để bắt và xử lý các lỗi có thể xảy ra khi gọi API
         try {
-            const res = await fetch('http://192.168.1.118:3000/chongoi/search/' + Id_ChuyenDi);
-            const data = await res.json();
-            if (data != null) {
+            //Nếu hàm fetch thành công, kết quả sẽ được lưu vào biến res
+            const res = await fetch('http://192.168.1.11:3000/chongoi/search/' + Id_ChuyenDi);
+            const data = await res.json();//Sau đó, phương thức json() của biến res được gọi để chuyển đổi dữ liệu từ định dạng JSON sang đối tượng JavaScript, và lưu vào biến data
+
+            if (data != null) {//Kiểm tra giá trị của biến data. Nếu data khác null, nghĩa là có dữ liệu về các chỗ ngồi trên xe, thì duyệt qua mảng data
                 for (let index = 0; index < data.length; index++) {
-                    collectionDatVeXe[data[index].Id_ChuyenDi + data[index].Id_GheXe] = '1';
+                    //Khai báo một biến có tên là collectionDatVeXe, là một đối tượng chứa các thông tin về việc đặt vé xe của một hành khách
+                    collectionDatVeXe[data[index].Id_ChuyenDi + data[index].Id_GheXe] = '1';//Gán giá trị ‘1’ cho thuộc tính của biến collectionDatVeXe có tên là Id_ChuyenDi + Id_GheXe, tức là ghép id của chuyến đi và id của ghế lại thành một chuỗi.Việc này có thể là để đánh dấu rằng chỗ ngồi đó đã được đặt, hoặc để lưu lại id của chỗ ngồi cho mỗi vé xe.
                 }
             }
-        } catch (err) {
+        } catch (err) {//nếu không, hàm này sẽ ném ra một lỗi và chuyển sang khối catch in ra lỗi
             console.log(err);
         }
 
         // Lấy danh sách ghế tầng 1
         try {
-            const res = await fetch('http://192.168.1.118:3000/ghexe/search/' + Id_Xe + '/1');
-            const data = await res.json();
+            //Nếu hàm fetch thành công, kết quả sẽ được lưu vào biến res
+            const res = await fetch('http://192.168.1.11:3000/ghexe/search/' + Id_Xe + '/1');
+            const data = await res.json();//Sau đó, phương thức json() của biến res được gọi để chuyển đổi dữ liệu từ định dạng JSON sang đối tượng JavaScript, và lưu vào biến data
 
-            if (data != null) {
-                const List: any = [];
-                for (let index = 0; index < data.length; index++) {
-                    List.push({
-                        Id: data[index].Id,
-                        Ten: data[index].Ten,
-                        Id_Xe: data[index].Id_Xe,
-                        TrangThai: collectionDatVeXe[data[index].Id + Id_ChuyenDi] == undefined ? '1' : '2',
-                        Index: index,
-                        SoGhe: data[index].SoGhe,
+            if (data != null) {//Nếu data khác null, nghĩa là có dữ liệu về các ghế trên xe
+                const List: any = [];//khai báo một biến có tên là List, là một mảng có kiểu dữ liệu là any
+                for (let index = 0; index < data.length; index++) {//Sau đó, duyệt qua mảng data
+                    List.push({//Thêm một phần tử mới vào mảng List, là một đối tượng chứa các thông tin về một ghế trên xe, bao gồm:
+                        Id: data[index].Id,//Id là id của ghế
+                        Ten: data[index].Ten,//Ten là tên của ghế
+                        Id_Xe: data[index].Id_Xe,//Id_Xe là id của xe
+                        TrangThai: collectionDatVeXe[data[index].Id + Id_ChuyenDi] == undefined ? '1' : '2',//TrangThai là trạng thái của ghế. Nếu thuộc tính có tên là id của ghế cộng với id của chuyến đi trong biến collectionDatVeXe bằng undefined, nghĩa là ghế đó chưa được đặt, thì gán giá trị ‘1’ cho trạng thái, nếu không, gán giá trị ‘2’, nghĩa là ghế đó đã được đặt
+                        Index: index,//Index là chỉ số của ghế trong mảng data
+                        SoGhe: data[index].SoGhe,//SoGhe là số ghế của ghế đó
                     });
                 }
-                setListGheXeT1(List);
+                setListGheXeT1(List);//cập nhật trạng thái của component với dữ liệu về các ghế trên xe của tầng 1
             }
         } catch (err) {
             console.log(err);
@@ -59,7 +66,7 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
 
         // Lấy danh sách ghế tầng 2
         try {
-            const res = await fetch('http://192.168.1.118:3000/ghexe/search/' + Id_Xe + '/2');
+            const res = await fetch('http://192.168.1.11:3000/ghexe/search/' + Id_Xe + '/2');
             const data = await res.json();
             if (data != null) {
                 const List: any = [];
@@ -82,42 +89,53 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
 
     // Hàm chọn/chặn ghế khi người dùng nhấn vào ghế
     const Chonchongoi = async (Index: any, check: any) => {
+        //Nếu check bằng 1, nghĩa là chọn ghế tầng 1
         if (check == 1) {
             // Chọn ghế tầng 1
+            //Nếu trạng thái của ghế bằng ‘3’, nghĩa là ghế đó đã được chọn bởi người dùng, thì giảm biến soLuong đi 1
             if (ListGheXeT1[Index].TrangThai == '3') {
                 let so = soLuong - 1;
-                setsoLuong(so);
+                setsoLuong(so);//cập nhật trạng thái của component với số lượng ghế đã chọn
+                //gán trạng thái của ghế thành ‘1’, nghĩa là ghế đó chưa được chọn
                 ListGheXeT1[Index] = { Id: ListGheXeT1[Index].Id, Ten: ListGheXeT1[Index].Ten, Id_Xe: ListGheXeT1[Index].Id_Xe, TrangThai: '1', Index: Index, SoGhe: ListGheXeT1[Index].SoGhe };
-            } else {
+            } else {//Nếu trạng thái của ghế khác ‘3’, nghĩa là ghế đó chưa được chọn bởi người dùng
+                //Nếu soLuong lớn hơn 3, nghĩa là người dùng đã chọn quá nhiều ghế, thì gọi hàm Alert.alert để hiển thị một thông báo cho người dùng biết là quý khách chỉ được chọn tối đa 4 ghế cho mỗi lần đặt
                 if (soLuong > 3) {
                     Alert.alert("Thông báo", "Quý khách chỉ được chọn tối đa 4 ghế cho mỗi lần đặt");
-                } else {
-                    let so = soLuong + 1;
-                    setsoLuong(so);
+                } else {//Nếu soLuong không lớn hơn 3, nghĩa là người dùng có thể chọn thêm ghế
+                    let so = soLuong + 1;//Tăng biến soLuong lên 1,
+                    setsoLuong(so);//cập nhật trạng thái của component với số lượng ghế đã chọn
+                    //gán trạng thái của ghế thành ‘3’, nghĩa là ghế đó đã được chọn
                     ListGheXeT1[Index] = { Id: ListGheXeT1[Index].Id, Ten: ListGheXeT1[Index].Ten, Id_Xe: ListGheXeT1[Index].Id_Xe, TrangThai: '3', Index: Index, SoGhe: ListGheXeT1[Index].SoGhe };
                 }
             }
+            //khai báo một biến có tên là List, là một mảng có kiểu dữ liệu là any, nghĩa là nó có thể chứa bất kỳ giá trị nào
             const List: any = [];
+            //Duyệt qua mảng ListGheXeT1, và thêm các phần tử của nó vào mảng List
             for (let index = 0; index < ListGheXeT1.length; index++) {
-                await List.push(ListGheXeT1[index]);
+                await List.push(ListGheXeT1[index]);//await để đợi kết quả của hàm List.push
             }
-            await setListGheXeT1(List);
+            await setListGheXeT1(List);//cập nhật trạng thái của component với dữ liệu về các ghế trên xe của tầng 
         } else {
             // Chọn ghế tầng 2
+            //Nếu trạng thái của ghế bằng ‘3’, nghĩa là ghế đó đã được chọn bởi người dùng, thì giảm biến soLuong đi 1
             if (ListGheXeT2[Index].TrangThai == '3') {
                 let so = soLuong - 1;
-                setsoLuong(so);
+                setsoLuong(so);//cập nhật trạng thái của component với số lượng ghế đã chọn
+                //gán trạng thái của ghế thành ‘1’, nghĩa là ghế đó chưa được chọn
                 ListGheXeT2[Index] = { Id: ListGheXeT2[Index].Id, Ten: ListGheXeT2[Index].Ten, Id_Xe: ListGheXeT2[Index].Id_Xe, TrangThai: '1', Index: Index, SoGhe: ListGheXeT2[Index].SoGhe };
-            } else {
-                if (soLuong > 3) {
+            } else {//Nếu trạng thái của ghế khác ‘3’, nghĩa là ghế đó chưa được chọn bởi người dùng
+                if (soLuong > 3) { //Nếu soLuong lớn hơn 3, nghĩa là người dùng đã chọn quá nhiều ghế, thì gọi hàm Alert.alert để hiển thị một thông báo cho người dùng biết là quý khách chỉ được chọn tối đa 4 ghế cho mỗi lần đặt
                     Alert.alert("Thông báo", "Quý khách chỉ được chọn tối đa 4 ghế cho mỗi lần đặt");
-                } else {
-                    let so = soLuong + 1;
-                    setsoLuong(so);
+                } else {//Nếu soLuong không lớn hơn 3, nghĩa là người dùng có thể chọn thêm ghế
+                    let so = soLuong + 1;//Tăng biến soLuong lên 1
+                    setsoLuong(so);//cập nhật trạng thái của component với số lượng ghế đã chọn
+                    //gán trạng thái của ghế thành ‘3’, nghĩa là ghế đó đã được chọn
                     ListGheXeT2[Index] = { Id: ListGheXeT2[Index].Id, Ten: ListGheXeT2[Index].Ten, Id_Xe: ListGheXeT2[Index].Id_Xe, TrangThai: '3', Index: Index, SoGhe: ListGheXeT2[Index].SoGhe };
                 }
             }
-            const List: any = [];
+            const List: any = []; //khai báo một biến có tên là List, là một mảng có kiểu dữ liệu là any, nghĩa là nó có thể chứa bất kỳ giá trị nào
+            //Duyệt qua mảng ListGheXeT2, và thêm các phần tử của nó vào mảng List
             for (let index = 0; index < ListGheXeT2.length; index++) {
                 await List.push(ListGheXeT2[index]);
             }
@@ -132,20 +150,25 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
 
     // Hàm chuyển sang trang đặt vé khi người dùng nhấn nút "Tiếp Tục"
     const nextPage = async () => {
+        //Khai báo mãng rỗng có tên là List để lưu trữ danh sách ghế đã chọn
         const List: any = [];
         // Thêm danh sách ghế đã chọn ở tầng 1
+        //Duyệt qua mảng ListGheXeT1, là một mảng chứa các đối tượng về các ghế trên xe của tầng 1
         for (let index = 0; index < ListGheXeT1.length; index++) {
+            //Nếu trạng thái bằng ‘3’, nghĩa là ghế đó đã được chọn bởi người dùng, thì sử dụng await để đợi kết quả của hàm List.push
             if (ListGheXeT1[index].TrangThai === '3') {
                 await List.push({
-                    Id: ListGheXeT1[index].Id
+                    Id: ListGheXeT1[index].Id//Phần tử mới là một đối tượng chứa một thuộc tính là Id, là id của ghế
                 });
             }
         }
         // Thêm danh sách ghế đã chọn ở tầng 2
+        //Duyệt qua mảng ListGheXeT2, là một mảng chứa các đối tượng về các ghế trên xe của tầng 2
         for (let index = 0; index < ListGheXeT2.length; index++) {
+            //Nếu trạng thái bằng ‘3’, nghĩa là ghế đó đã được chọn bởi người dùng, thì sử dụng await để đợi kết quả của hàm List.push
             if (ListGheXeT2[index].TrangThai === '3') {
                 await List.push({
-                    Id: ListGheXeT1[index].Id
+                    Id: ListGheXeT1[index].Id//Phần tử mới là một đối tượng chứa một thuộc tính là Id, là id của ghế
                 });
             }
         }

@@ -12,6 +12,7 @@ const DateScreens = ({route,navigation}:any) => {
     const [selectedDate, setSelectedDate] = useState(curentday);
 
     // Kiểm tra nếu có dữ liệu truyền từ màn hình khác, cập nhật ngày được chọn
+    // kiểm tra xem route.params có phải là undefined hay không, Nếu không, nó sẽ lấy giá trị của datetime từ route.params và gán cho biến setSelectedDate
     if(route.params != undefined){
         const {datetime} = route.params;
         setSelectedDate(datetime);

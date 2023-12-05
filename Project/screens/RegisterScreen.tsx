@@ -33,7 +33,7 @@ const RegisterScreen = ({ route }: any) => {
 
         if (regexPhone.test(isPhone)) {
             // Kiểm tra số điện thoại đã được đăng ký trước đó hay chưa
-            const res = await fetch('http://192.168.1.118:3000/hanhkhach/searchSDT/' + isPhone);
+            const res = await fetch('http://192.168.1.11:3000/hanhkhach/searchSDT/' + isPhone);
             const data = await res.json();
 
             if (data.length > 0) {
@@ -50,7 +50,7 @@ const RegisterScreen = ({ route }: any) => {
                         Email: '',
                         TrangThai: 1
                     }
-                    axios.post('http://192.168.1.118:3000/hanhkhach/', formlogin).then((response) => {
+                    axios.post('http://192.168.1.11:3000/hanhkhach/', formlogin).then((response) => {
                         let Data = {
                             id: response.data.insertId,
                             TenHanhKhach: isName,

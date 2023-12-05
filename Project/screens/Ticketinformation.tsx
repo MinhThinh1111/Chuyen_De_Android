@@ -13,12 +13,12 @@ const Ticketinformation = ({ route, navigation }: any) => {
 
    const Bill = () => {
       navigation.navigate('BillInformation');
-  }
+   }
 
    // Hàm xử lý khi người dùng hủy vé
    const DeletVeXe = async () => {
       // Gửi request lấy thông tin chuyến đi từ server
-      axios.get('http://192.168.1.118:3000/chuyendi/' + data.Id_ChuyenDi).then((response) => {
+      axios.get('http://192.168.1.11:3000/chuyendi/' + data.Id_ChuyenDi).then((response) => {
          // Chuẩn bị dữ liệu để cập nhật số ghế trống cho chuyến đi
          let updatechuyendi = {
             Id: data.Id_ChuyenDi,
@@ -26,7 +26,7 @@ const Ticketinformation = ({ route, navigation }: any) => {
          };
 
          // Gửi request cập nhật số ghế trống cho chuyến đi
-         axios.put('http://192.168.1.118:3000/chuyendi/updateSoGheTrong', updatechuyendi).then((response) => {
+         axios.put('http://192.168.1.11:3000/chuyendi/updateSoGheTrong', updatechuyendi).then((response) => {
             // Chuẩn bị dữ liệu để cập nhật trạng thái vé xe
             let updatevexe = {
                Id: data.Id,
@@ -34,7 +34,7 @@ const Ticketinformation = ({ route, navigation }: any) => {
             };
 
             // Gửi request cập nhật trạng thái vé xe
-            axios.put('http://192.168.1.118:3000/vexe/IdVeXe', updatevexe).then((response) => {
+            axios.put('http://192.168.1.11:3000/vexe/IdVeXe', updatevexe).then((response) => {
                // Chuẩn bị dữ liệu để cập nhật trạng thái chỗ ngồi
                let updateChongoi = {
                   TrangThai: 3,
@@ -42,7 +42,7 @@ const Ticketinformation = ({ route, navigation }: any) => {
                };
 
                // Gửi request cập nhật trạng thái chỗ ngồi
-               axios.put('http://192.168.1.118:3000/chongoi/updateIdVeXe', updateChongoi).then((response) => {
+               axios.put('http://192.168.1.11:3000/chongoi/updateIdVeXe', updateChongoi).then((response) => {
                   // Hiển thị thông báo hủy vé thành công và chuyển hướng về trang MyTric
                   Alert.alert("Thông báo", "Hủy vé thành công");
                   navigation.navigate('MyTric');
@@ -65,8 +65,9 @@ const Ticketinformation = ({ route, navigation }: any) => {
          </View>
          <View style={{ padding: 15 }}>
             <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold', marginBottom: 4 }}>Thông tin chuyến</Text>
-            <Text style={{ color: 'black', fontSize: 18 }}>Tuyến: {data.Ten}</Text>
-            <Text style={{ color: 'black', fontSize: 18 }}>Chuyến: {data.GioDi} giờ,  ngày {data.NgayDi}</Text>
+            <Text style={{ color: 'black', fontSize: 18 }}>Tuyến đường: {data.Ten}</Text>
+            <Text style={{ color: 'black', fontSize: 18 }}>Chuyến: {data.GioDi} giờ</Text>
+            <Text style={{ color: 'black', fontSize: 18 }}>Ngày: {data.NgayDi}</Text>
             <Text style={{ color: 'black', fontSize: 18 }}>Số ghế: {data.soghe}</Text>
             <Text style={{ color: 'black', fontSize: 18 }}>Chố ngồi: {data.ChoNgoi}</Text>
             <Text style={{ color: 'black', fontSize: 18 }}>Tổng tiền: {data.TongTien} VND</Text>
@@ -83,18 +84,19 @@ const Ticketinformation = ({ route, navigation }: any) => {
             <Text style={{ color: 'black', fontSize: 18 }}>Họ và tên: {IsNote.TenHanhKhach}</Text>
             <Text style={{ color: 'black', fontSize: 18 }}>Số điện thoại: {IsNote.SDT}</Text>
 
+            <TouchableOpacity onPress={() => Bill()} style={{ borderColor: '#b2b4b8', borderWidth: 1, marginTop: 25, borderRadius: 15, backgroundColor: '#642EFE' }}><Text style={{ padding: 6, color: '#fff', fontSize: 18, alignSelf: 'center' }}>Thanh Toán</Text></TouchableOpacity>
             {checkve == 1 &&
-               <TouchableOpacity onPress={() => DeletVeXe()} style={{ borderColor: '#b2b4b8', borderWidth: 1, marginTop: 25 }}><Text style={{ padding: 6, color: 'black', fontSize: 18, alignSelf: 'center' }}>Hủy vé</Text></TouchableOpacity>
+               <TouchableOpacity onPress={() => DeletVeXe()} style={{ borderColor: '#b2b4b8', borderWidth: 1, marginTop: 25, borderRadius: 15, backgroundColor: '#642EFE' }}><Text style={{ padding: 6, color: '#fff', fontSize: 18, alignSelf: 'center' }}>Hủy vé</Text></TouchableOpacity>
             }
-            <TouchableOpacity onPress={() => Bill()} style={{ borderColor: '#b2b4b8', borderWidth: 1, marginTop: 25 }}><Text style={{ padding: 6, color: 'black', fontSize: 18, alignSelf: 'center' }}>Thanh Toán</Text></TouchableOpacity>
-           
-           
+
+
+
 
 
          </View>
-         
+
       </>
-      
+
    )
 }
 

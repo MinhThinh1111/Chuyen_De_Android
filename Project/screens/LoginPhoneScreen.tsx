@@ -26,7 +26,7 @@ const LoginPhoneScreen = () => {
 
         if (regexPhone.test(isPhone)) {
             // Gửi yêu cầu đến API để kiểm tra số điện thoại
-            const res = await fetch('http://192.168.1.118:3000/hanhkhach/searchSDT/' + isPhone);
+            const res = await fetch('http://192.168.1.11:3000/hanhkhach/searchSDT/' + isPhone);
             const data = await res.json();
 
             if (data.length > 0) {

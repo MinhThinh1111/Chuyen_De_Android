@@ -15,6 +15,15 @@ import LoginPhoneScreen from "./screens/LoginPhoneScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import Ticketinformation from "./screens/Ticketinformation";
 import BillInformationScreen from "./screens/BillInformationScreen";
+import VeMayBay from "./screens/VeMayBay";
+import FindPlaneScreen from "./screens/FindPlaneScreen";
+import DetailFlightScreen from "./screens/DetailFlightScreen";
+import InformationScreen from "./screens/InformationScreen";
+import ConfirmInformationScreen from "./screens/ConfirmInformationScreen";
+import ThueXe from "./screens/ThueXe";
+import Danhsachxe from "./screens/Danhsachxe";
+import Thongtinchitiet from "./screens/ThongTinChiTiet";
+import Quidinhthuexe from "./screens/Quidinhthuexe";
 
 
 
@@ -29,6 +38,7 @@ const App = () => {
         {/* Sử dụng MyNote, một Context Provider được cung cấp từ file ./ConText/MyNote */}
         <MyNote>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
+            {/* Thinh */}
             <Stack.Screen name="LoginPhone" component={LoginPhoneScreen}></Stack.Screen>
             <Stack.Screen name="LoginName" component={RegisterScreen}></Stack.Screen>
             <Stack.Screen name="App" component={TabNavigator}></Stack.Screen>
@@ -39,6 +49,20 @@ const App = () => {
             <Stack.Screen name="BookTicket" component={BookTicket}></Stack.Screen>
             <Stack.Screen name="TicketInform" component={Ticketinformation}></Stack.Screen>
             <Stack.Screen name="BillInformation" component={BillInformationScreen}></Stack.Screen>
+
+            {/* Trieu */}
+            <Stack.Screen name="VeMayBay" component={VeMayBay}></Stack.Screen>
+            <Stack.Screen name="FindPlaneScreen" component={FindPlaneScreen}></Stack.Screen>
+            <Stack.Screen name="DetailFlightScreen" component={DetailFlightScreen}></Stack.Screen>
+            <Stack.Screen name="InformationScreen" component={InformationScreen}></Stack.Screen>
+            <Stack.Screen name="ConfirmInformationScreen" component={ConfirmInformationScreen}></Stack.Screen>
+
+            {/* Thang*/}
+            <Stack.Screen name="ThueXe" component={ThueXe}></Stack.Screen>
+            <Stack.Screen name="Danhsachxe" component={Danhsachxe}></Stack.Screen>
+            <Stack.Screen name="ThongTinChiTiet" component={Thongtinchitiet}></Stack.Screen>
+            <Stack.Screen name="Quidinhthuexe" component={Quidinhthuexe}></Stack.Screen>
+            
           </Stack.Navigator>
         </MyNote>
       </NavigationContainer>

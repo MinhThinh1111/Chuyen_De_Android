@@ -4,29 +4,37 @@ import { Image, StatusBar, StyleSheet, Text, ScrollView, TouchableOpacity, View 
 import Icon from 'react-native-vector-icons/Feather';
 import { useNotes } from "../ConText/MyNote";
 const AccountScreen = ({ navigation }: any) => {
-    const {IsNote,SetNote,getNote}:any = useNotes()
+    const { IsNote, SetNote, getNote }: any = useNotes()
     // Hàm login để xử lý khi người dùng đăng xuất
-    const login = ()=>{
+    const login = () => {
         SetNote({}) // clear thông tin người dùng
         AsyncStorage.clear()
         navigation.replace('LoginPhone') // chuyển về màn hình login
     }
+
+
     return (
         <>
-            <View>
-                <StatusBar translucent={true} backgroundColor={'transparent'} barStyle="dark-content"></StatusBar>
-            </View>
-            <View style={styles.header}>
-                <View style={{ padding: 23 }}>
-                    <Text style={{ fontSize: 20, color: 'white' }}>{IsNote.TenHanhKhach}</Text>
-                    <Text style={{ fontSize: 17, color: 'white' }}>{IsNote.SDT}</Text>
-                </View>
-                <View style={{ padding: 23 }}>
-                    <Image style={{ width: 60, height: 60, borderRadius: 12 }} source={require('../assets/Images/avatar.jpg')}></Image>
-                </View>
+            <StatusBar translucent={true} backgroundColor={'transparent'} barStyle="dark-content"></StatusBar>
+            <View style={styles.banner}>
+                <Image style={styles.bannerImg} source={require("../assets/Images/banner1.jpg")} />
             </View>
 
-            <ScrollView>
+            <View style={styles.search}>
+                <Image style={{ width: 200, height: 200, borderRadius: 100 }} source={require('../assets/Images/avatar1.jpg')}></Image>
+                <Text style={{ fontSize: 20, color: 'black', padding: 10, fontWeight:'bold' }}>Tên: {IsNote.TenHanhKhach}</Text>
+                <Text style={{ fontSize: 20, color: 'black', padding: 10, fontWeight:'bold' }}>SĐT: {IsNote.SDT}</Text>
+            </View>
+            <View style={{paddingTop: 100}}>
+                <TouchableOpacity style={styles.menu}>
+                    <View style={{ flexDirection: 'row', paddingVertical: 15 }}>
+                        <Icon name="book" size={22} color="red" />
+                        <Text style={{ fontSize: 18, paddingLeft: 13 }}>Cập nhật thông tin</Text>
+                    </View>
+                    <View>
+                        <Icon name="chevron-right" size={23} color="black" />
+                    </View>
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.menu}>
                     <View style={{ flexDirection: 'row', paddingVertical: 15 }}>
                         <Icon name="book" size={22} color="red" />
@@ -45,7 +53,7 @@ const AccountScreen = ({ navigation }: any) => {
                         <Icon name="chevron-right" size={23} color="black" />
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.menu} onPress={()=>login()}>
+                <TouchableOpacity style={styles.menu} onPress={() => login()}>
                     <View style={{ flexDirection: 'row', paddingVertical: 15 }}>
                         <Icon name="log-out" size={22} color="red" />
                         <Text style={{ fontSize: 18, paddingLeft: 13 }}>Đăng xuất</Text>
@@ -54,20 +62,16 @@ const AccountScreen = ({ navigation }: any) => {
                         <Icon name="chevron-right" size={23} color="black" />
                     </View>
                 </TouchableOpacity>
-            </ScrollView>
+            </View>
 
 
         </>
     )
 }
 
-
 const styles = StyleSheet.create({
-    header: {
-        paddingTop:40,
-        flexDirection: 'row',
-        justifyContent: "space-between",
-        backgroundColor: '#642EFE',
+    container: {
+        backgroundColor: "#FFFFFF"
     },
     menu: {
         backgroundColor: '#EEEEEE',
@@ -77,11 +81,26 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         width: '85%',
         alignItems: "center",
-        marginTop: 25,
+        marginTop: 40,
         borderRadius: 12,
         elevation: 4,
         shadowColor: '#555555',
 
-    }
+    },
+    banner: {
+        width: "100%",
+        height: 260,
+    },
+    bannerImg: {
+        width: "100%",
+        height: 150,
+    },
+    
+    search: {
+        width: "100%",
+        padding: 25,
+        position: "absolute",
+        top: 60, alignItems: 'center'
+    },
 })
 export default AccountScreen;

@@ -15,14 +15,14 @@ const BillInformationScreen = ({ route, navigation }: any) => {
                 <TouchableOpacity>
                     <View style={styles.trip}>
                         <View style={{ flexDirection: 'row', borderRadius: 25, backgroundColor: '#819FF7', padding: 22 }}>
-                            <View style={{width: '35%'}}>
+                            <View style={{width: '30%'}}>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold' }}>Trường hợp: </Text>
                                 <Text>Thanh toán trực tiếp</Text>
                             </View>
                             <View style={{ width: 1, height: '100%', backgroundColor: 'white' }}></View>
-                            <View style={{ width: '64%', marginLeft: 10, alignItems: 'center' }}>
-                                <Text>Vui lòng đến trước nhà xe <Text style={{ fontWeight: 'bold', color: 'red' }}>60 phút</Text> để thanh toán và nhận vé</Text>
-                                <Text>Địa chỉ:<Text style={{ fontWeight: 'bold', color: 'red' }}>53 Võ Văn Ngân, Phường Linh Chiểu, Quận Thủ Đức</Text></Text>
+                            <View style={{ width: '69%', marginLeft: 10, alignItems: 'center' }}>
+                                <Text>Vui lòng đến trước nhà xe <Text style={{ fontWeight: 'bold', color: 'red'}}>60 phút</Text> để thanh toán và nhận vé</Text>
+                                <Text>Địa chỉ:<Text style={{ fontWeight: 'bold', color: 'red'}}>53 Võ Văn Ngân, Phường Linh Chiểu, Quận Thủ Đức</Text></Text>
                             </View>
                         </View>
                     </View>
@@ -47,7 +47,7 @@ const BillInformationScreen = ({ route, navigation }: any) => {
                         </View>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => Home()} style={{ width: '100%', height: 50, marginTop: 15, backgroundColor: '#819FF7', borderRadius: 12, alignItems: 'center', alignSelf: 'center' }}>
+                <TouchableOpacity onPress={() => Home()} style={{ width: '30%', height: 50, marginTop: 30, backgroundColor: '#819FF7', borderRadius: 12, alignItems: 'center', alignSelf: 'center' }}>
                     <Text style={{ color: 'white', padding: 10, fontSize: 20, textAlign: 'center' }}>Thoát</Text>
                 </TouchableOpacity>
 

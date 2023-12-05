@@ -20,11 +20,13 @@ const TripListScreens = ({ route }: any) => {
 
     // Hàm gọi API để lấy danh sách chuyến đi theo idLoTrinh và NgayDi
     const getChuyenDiByIdLoTrinhNgayDi = async () => {
+        //Sử dụng cấu trúc try-catch để bắt và xử lý các lỗi có thể xảy ra khi gọi API
         try {
-            const res = await fetch('http://192.168.1.118:3000/chuyendi/search/' + idLoTrinh + '/' + NgayDi);
-            const data = await res.json();
-            setchuyenDi(data);
-        } catch (err) {
+            //Nếu hàm fetch thành công, kết quả sẽ được lưu vào biến res
+            const res = await fetch('http://192.168.1.11:3000/chuyendi/search/' + idLoTrinh + '/' + NgayDi);
+            const data = await res.json();//Gọi phương thức json() của biến res để chuyển đổi dữ liệu từ định dạng JSON sang đối tượng JavaScript, và lưu vào biến data
+            setchuyenDi(data);//để cập nhật trạng thái của component chuyến đi
+        } catch (err) {//Thông báo lỗi
             console.log(err);
         }
     }

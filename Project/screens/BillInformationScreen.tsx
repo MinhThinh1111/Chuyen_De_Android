@@ -18,10 +18,10 @@ const BillInformationScreen = ({ navigation }: any) => {
                 <View style={styles.paymentMethod}>
                     <View style={styles.methodDetails}>
                         <Text style={styles.methodTitle}>Thanh toán trực tiếp</Text>
-                        <Text>Vui lòng đến trước nhà xe</Text>
+                        <Text style={{fontSize:18}}>Vui lòng đến trước nhà xe</Text>
                         <Text style={styles.boldRed}>60 phút</Text>
-                        <Text>để thanh toán và nhận vé</Text>
-                        <Text>Địa chỉ:</Text>
+                        <Text style={{fontSize:18}}>để thanh toán và nhận vé</Text>
+                        <Text style={{fontSize:18}}>Địa chỉ:</Text>
                         <Text style={styles.boldRed}>53 Võ Văn Ngân, Phường Linh Chiểu, Quận Thủ Đức</Text>
                     </View>
                 </View>
@@ -31,12 +31,12 @@ const BillInformationScreen = ({ navigation }: any) => {
                 <View style={styles.paymentMethod}>
                     <View style={styles.methodDetails}>
                         <Text style={styles.methodTitle}>Thanh toán chuyển khoản</Text>
-                        <Text>Vui lòng chuyển khoản vào số TK</Text>
+                        <Text style={{fontSize:18}}>Vui lòng chuyển khoản vào số TK</Text>
                         <Text style={styles.boldRed}>6785987</Text>
-                        <Text>Ngân Hàng Á Châu (ACB)</Text>
-                        <Text>Tên Tài khoản</Text>
+                        <Text style={styles.boldRed}>Ngân Hàng Á Châu (ACB)</Text>
+                        <Text style={{fontSize:18}}>Tên Tài khoản</Text>
                         <Text style={styles.boldRed}>Võ Minh Thịnh</Text>
-                        <Text>Nội dung chuyển khoản:</Text>
+                        <Text style={{fontSize:18}}>Nội dung chuyển khoản:</Text>
                         <Text style={styles.boldRed}>Tên_SDT_NgayDi</Text>
                     </View>
                 </View>
@@ -84,13 +84,14 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     methodTitle: {
-      fontSize: 20,
+      fontSize: 23,
       fontWeight: 'bold',
       padding: 10
     },
     boldRed: {
       fontWeight: 'bold',
       color: 'red',
+      fontSize:17
     },
     exitButton: {
       height: 50,

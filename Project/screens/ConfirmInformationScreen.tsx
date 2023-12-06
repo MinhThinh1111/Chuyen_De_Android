@@ -3,7 +3,10 @@ import { Alert, Button, Image, Modal, Platform, ScrollView, StyleSheet, Switch, 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const ConfirmInformationScreen = ({navigation}: {navigation: any}) => {
+const ConfirmInformationScreen = ({ navigation }: { navigation: any }) => {
+    const Home = () => {
+        navigation.navigate('Home');
+    };
     const [text, setText] = useState('');
     return (
         <View>
@@ -56,13 +59,16 @@ const ConfirmInformationScreen = ({navigation}: {navigation: any}) => {
                 </View>
             </View>
             <View>
-            <Text style={styles.note}>Lưu Ý !</Text>
+                <Text style={styles.note}>Lưu Ý !</Text>
                 <Text style={styles.note1}>- Yêu cầu quý khách điền đúng thông tin </Text>
                 <Text style={styles.note1}>- Việc điền sai thông tin sẽ ảnh hưởng đến vé đặt của khách hàng</Text>
                 <Text style={styles.note1}>- Nếu đã đúng thông tin, Quý khách có thể nhấn "Tiếp tục" </Text>
             </View>
-            <TouchableOpacity style={styles.btn}>
-                <Text style={{ marginLeft: 12, fontSize: 20, fontWeight: 'bold', color: 'white' }}>Thanh Toán</Text>
+            <TouchableOpacity style={styles.exitButton}>
+                <Text style={styles.exitButtonText}>Thanh Toán</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={Home} style={styles.exitButton}>
+                <Text style={styles.exitButtonText}>Thoát</Text>
             </TouchableOpacity>
         </View>
 
@@ -120,6 +126,21 @@ const styles = StyleSheet.create({
         shadowRadius: 4.65,
         elevation: 7,
     },
+    exitButton: {
+        height: 50,
+        backgroundColor: '#819FF7',
+        borderRadius: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '30%',
+        alignSelf: 'center',
+        marginTop: 20,
+    },
+    exitButtonText: {
+        color: 'white',
+        fontSize: 20,
+        textAlign: 'center',
+    },
 
     input: {
         height: 30,
@@ -150,58 +171,58 @@ const styles = StyleSheet.create({
         elevation: 7,
     },
     title: {
-        marginLeft: 15, 
-        marginTop: 15, 
-        fontSize: 20, 
-        fontWeight: 'bold', 
+        marginLeft: 15,
+        marginTop: 15,
+        fontSize: 20,
+        fontWeight: 'bold',
         color: '#42CDF9'
     },
     title1: {
-        marginLeft: 15, 
-        marginTop: 15, 
-        fontSize: 15, 
-        fontWeight: 'bold', 
+        marginLeft: 15,
+        marginTop: 15,
+        fontSize: 15,
+        fontWeight: 'bold',
         color: '#42CDF9'
     },
     title2: {
-        marginLeft: 15, 
-        marginTop: 5, 
-        fontSize: 10, 
+        marginLeft: 15,
+        marginTop: 5,
+        fontSize: 10,
         fontWeight: 'bold'
     },
     detailUser: {
-        marginLeft: 15, 
-        marginTop: 5, 
+        marginLeft: 15,
+        marginTop: 5,
         fontSize: 10
     },
     detailUser1: {
-        marginLeft: 15, 
-        marginTop: 5, 
-        fontSize: 15, 
+        marginLeft: 15,
+        marginTop: 5,
+        fontSize: 15,
         fontWeight: 'bold'
     },
     detailLoc: {
-        marginLeft: 15, 
-        marginTop: 5, 
-        fontSize: 10, 
-        fontWeight: 'bold', 
+        marginLeft: 15,
+        marginTop: 5,
+        fontSize: 10,
+        fontWeight: 'bold',
         color: '#42CDF9'
     },
     location: {
-        marginLeft: 15, 
-        marginTop: 5, 
-        fontSize: 10, 
+        marginLeft: 15,
+        marginTop: 5,
+        fontSize: 10,
         fontWeight: 'bold'
     },
     date: {
-        marginLeft: 15, 
-        marginTop: 7, 
-        fontSize: 10, 
+        marginLeft: 15,
+        marginTop: 7,
+        fontSize: 10,
         fontWeight: 'bold'
     },
     time: {
-        marginLeft: 15, 
-        fontSize: 11, 
+        marginLeft: 15,
+        fontSize: 11,
         fontWeight: 'bold'
     },
     note: {
@@ -212,9 +233,9 @@ const styles = StyleSheet.create({
         color: 'red'
     },
     note1: {
-        marginLeft: 30, 
-        marginTop: 5, 
-        fontSize: 10, 
+        marginLeft: 30,
+        marginTop: 5,
+        fontSize: 10,
     },
 })
 export default ConfirmInformationScreen;

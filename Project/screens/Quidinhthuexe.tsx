@@ -1,9 +1,12 @@
 import React from "react";
 import { Image } from "react-native";
 import { TouchableOpacity } from "react-native";
-import { Text, View, TextInput, Button } from "react-native";
+import { Text, View, TextInput, Button, StyleSheet } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 const Quidinhthuexe = ({navigation}:any) => {
+    const Home = () => {
+        navigation.navigate('Home');
+    };
     return (
         <>
 
@@ -35,8 +38,28 @@ const Quidinhthuexe = ({navigation}:any) => {
 
             
             </View>
+            <TouchableOpacity onPress={Home} style={styles.exitButton}>
+                <Text style={styles.exitButtonText}>Thoát</Text>
+            </TouchableOpacity>
             
         </>
     )
 }
+const styles = StyleSheet.create({
+    exitButton: {
+      height: 50,
+      backgroundColor: '#819FF7',
+      borderRadius: 12,
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '30%',
+      alignSelf: 'center',
+      marginTop: 20,
+    },
+    exitButtonText: {
+      color: 'white',
+      fontSize: 20,
+      textAlign: 'center',
+    },
+  });
 export default Quidinhthuexe;

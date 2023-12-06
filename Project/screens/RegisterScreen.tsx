@@ -15,16 +15,18 @@ const RegisterScreen = ({ route }: any) => {
     const [ischeckName, setcheckName] = useState(false)
     const { isNote, SetNote, getNote }: any = useNotes()
     const [isPhone, setPhone] = useState('')
+    const [isEmail, setEmail] = useState('')
+    const [ischeckEmail, setcheckEmail] = useState(false)
     const [ischeckPhone, setcheckPhone] = useState(false)
 
-   
+
     const [isPhoneRegistered, setIsPhoneRegistered] = useState(false)
 
     const login = async () => {
         let regexPhone = new RegExp('(0[1|3|5|7|8|9])+([0-9]{8})')
 
         if (regexPhone.test(isPhone)) {
-            const res = await fetch('http://192.168.1.11:3000/hanhkhach/searchSDT/' + isPhone);
+            const res = await fetch('http://192.168.1.6:3000/hanhkhach/searchSDT/' + isPhone);
             const data = await res.json();
 
             if (data.length > 0) {
@@ -36,14 +38,15 @@ const RegisterScreen = ({ route }: any) => {
                     let formlogin = {
                         Ten: isName,
                         Sdt: isPhone,
-                        Email: '',
+                        Email: isEmail,
                         TrangThai: 1
                     }
-                    axios.post('http://192.168.1.11:3000/hanhkhach/', formlogin).then((response) => {
+                    axios.post('http://192.168.1.6:3000/hanhkhach/', formlogin).then((response) => {
                         let Data = {
                             id: response.data.insertId,
                             TenHanhKhach: isName,
                             SDT: isPhone,
+                            Email: isEmail,
                         }
                         SetNote(Data)
                         AsyncStorage.setItem('Account', JSON.stringify(Data));
@@ -91,6 +94,14 @@ const RegisterScreen = ({ route }: any) => {
                     <TextInput onChangeText={(value) => setName(value)} style={{ padding: 10, borderWidth: 1, borderColor: '#d9dedb', borderRadius: 15, marginTop: 35, fontSize: 16 }} placeholder="Nhập họ và tên " />
                     {
                         ischeckName ? (
+                            <Text style={{ color: 'red', marginTop: 2 }}>Không được để rỗng</Text>
+                        ) : (
+                            ''
+                        )
+                    }
+                    <TextInput onChangeText={(value) => setEmail(value)} style={{ padding: 10, borderWidth: 1, borderColor: '#d9dedb', borderRadius: 15, marginTop: 35, fontSize: 16 }} placeholder="Nhập Email " />
+                    {
+                        ischeckEmail ? (
                             <Text style={{ color: 'red', marginTop: 2 }}>Không được để rỗng</Text>
                         ) : (
                             ''

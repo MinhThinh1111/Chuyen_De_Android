@@ -24,6 +24,7 @@ import ThueXe from "./screens/ThueXe";
 import Danhsachxe from "./screens/Danhsachxe";
 import Thongtinchitiet from "./screens/ThongTinChiTiet";
 import Quidinhthuexe from "./screens/Quidinhthuexe";
+import UpdateProfileScreen from "./screens/UpdateProfileScreen";
 
 
 
@@ -49,6 +50,7 @@ const App = () => {
             <Stack.Screen name="BookTicket" component={BookTicket}></Stack.Screen>
             <Stack.Screen name="TicketInform" component={Ticketinformation}></Stack.Screen>
             <Stack.Screen name="BillInformation" component={BillInformationScreen}></Stack.Screen>
+            <Stack.Screen name="UpdateProfileScreen" component={UpdateProfileScreen}></Stack.Screen>
 
             {/* Trieu */}
             <Stack.Screen name="VeMayBay" component={VeMayBay}></Stack.Screen>

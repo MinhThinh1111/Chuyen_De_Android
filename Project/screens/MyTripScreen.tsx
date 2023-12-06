@@ -5,15 +5,15 @@ import axios from 'axios';
 
 
 const MyTripScreen = ({ route, navigation }: any) => {
-    
+
     const { IsNote, IsVeXe, SetVeXe, SetNote, getNote }: any = useNotes()
-    const [VeXeHienTai, SetVeXeHienTai] = useState([])  
-    const [VeXeDaDi, setVeXeDaDi] = useState([])  
-    const [VeXeDaHuy, setVeXeDaHuy] = useState([])  
+    const [VeXeHienTai, SetVeXeHienTai] = useState([])
+    const [VeXeDaDi, setVeXeDaDi] = useState([])
+    const [VeXeDaHuy, setVeXeDaHuy] = useState([])
     const [check, setcheck] = useState(1)
 
     if (route.params == undefined) {
-        axios.get('http://192.168.1.11:3000/vexe/khachhang/' + IsNote.id + '/1').then((response) => {
+        axios.get('http://192.168.1.6:3000/vexe/khachhang/' + IsNote.id + '/1').then((response) => {
             SetVeXeHienTai(response.data)
         });
     }
@@ -24,11 +24,11 @@ const MyTripScreen = ({ route, navigation }: any) => {
 
     const onPress = async (id: any) => {
         if (id == 2) {
-            axios.get('http://192.168.1.11:3000/vexe/khachhang/' + IsNote.id + '/2').then((response) => {
+            axios.get('http://192.168.1.6:3000/vexe/khachhang/' + IsNote.id + '/2').then((response) => {
                 setVeXeDaDi(response.data)
             });
         } else {
-            axios.get('http://192.168.1.11:3000/vexe/khachhang/' + IsNote.id + '/3').then((response) => {
+            axios.get('http://192.168.1.6:3000/vexe/khachhang/' + IsNote.id + '/3').then((response) => {
                 setVeXeDaHuy(response.data)
             });
         }
@@ -125,7 +125,7 @@ const MyTripScreen = ({ route, navigation }: any) => {
                                                 <Text style={{ color: 'black', fontSize: 22, fontWeight: 'bold' }}>{item.BienSo}</Text>
                                                 <Text style={{ color: '#3b3938', fontSize: 18 }}>Ghế</Text>
                                                 <Text style={{ color: 'black', fontSize: 19, paddingBottom: 8 }}>{item.ChoNgoi}</Text>
-                                                <Text style={{ color: '#3b3938', fontSize: 17 }}>Lộ Trinh</Text>
+                                                <Text style={{ color: '#3b3938', fontSize: 17 }}>Lộ Trình</Text>
                                                 <Text style={{ color: 'black', fontSize: 18 }}>{item.Ten}</Text>
                                             </View>
                                         </View>

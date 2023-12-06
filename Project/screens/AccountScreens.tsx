@@ -5,12 +5,15 @@ import Icon from 'react-native-vector-icons/Feather';
 import { useNotes } from "../ConText/MyNote";
 const AccountScreen = ({ navigation }: any) => {
     const { IsNote, SetNote, getNote }: any = useNotes()
-    
+
     const login = () => {
         SetNote({})
         AsyncStorage.clear()
         navigation.replace('LoginPhone')
     }
+    const UpdateProfileScreen = () => {
+        navigation.navigate('UpdateProfileScreen');
+    };
     return (
         <>
             <StatusBar translucent={true} backgroundColor={'transparent'} barStyle="dark-content"></StatusBar>
@@ -20,11 +23,12 @@ const AccountScreen = ({ navigation }: any) => {
 
             <View style={styles.search}>
                 <Image style={{ width: 200, height: 200, borderRadius: 100 }} source={require('../assets/Images/avatar1.jpg')}></Image>
-                <Text style={{ fontSize: 20, color: 'black', padding: 10, fontWeight:'bold' }}>Tên: {IsNote.TenHanhKhach}</Text>
-                <Text style={{ fontSize: 20, color: 'black', padding: 10, fontWeight:'bold' }}>SĐT: {IsNote.SDT}</Text>
+                <Text style={{ fontSize: 20, color: 'black', padding: 10, fontWeight: 'bold' }}>Tên: {IsNote.TenHanhKhach}</Text>
+                <Text style={{ fontSize: 20, color: 'black', padding: 10, fontWeight: 'bold' }}>SĐT: {IsNote.SDT}</Text>
+                <Text style={{ fontSize: 20, color: 'black', padding: 10, fontWeight: 'bold' }}>Email: {IsNote.Email}</Text>
             </View>
-            <View style={{paddingTop: 100}}>
-                <TouchableOpacity style={styles.menu}>
+            <View style={{ paddingTop: 150 }}>
+                <TouchableOpacity style={styles.menu} onPress={() => UpdateProfileScreen()}>
                     <View style={{ flexDirection: 'row', paddingVertical: 15 }}>
                         <Icon name="edit" size={22} color="red" />
                         <Text style={{ fontSize: 18, paddingLeft: 13 }}>Cập nhật thông tin</Text>
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 150,
     },
-    
+
     search: {
         width: "100%",
         padding: 25,

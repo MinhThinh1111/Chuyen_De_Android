@@ -26,7 +26,7 @@ const BookTicket = ({ route, navigation }: any) => {
         const data = await AsyncStorage.getItem('idHuyen');
         let id = data?.split(',');
         try {
-            const res = await fetch('http://192.168.1.11:3000/diemxe/huyen/' + id[0]);
+            const res = await fetch('http://192.168.1.6:3000/diemxe/huyen/' + id[0]);
             const data = await res.json();
             setBatDau(data);
         } catch (err) {
@@ -35,7 +35,7 @@ const BookTicket = ({ route, navigation }: any) => {
 
         try {
 
-            const res = await fetch('http://192.168.1.11:3000/diemxe/huyen/' + id[1]);
+            const res = await fetch('http://192.168.1.6:3000/diemxe/huyen/' + id[1]);
             const data = await res.json();
             setBatCuoi(data);
         } catch (err) {
@@ -57,37 +57,41 @@ const BookTicket = ({ route, navigation }: any) => {
         }
     }
     const datvexe = async () => {
+        let listChoiNgoi = []
         try {
 
             for (let index = 0; index < data.length; index++) {
-                axios.get('http://192.168.1.11:3000/chongoi/check/' + Id_ChuyenDi + '/' + data[index].Id).then((response) => {
+                axios.get('http://192.168.1.6:3000/chongoi/check/' + Id_ChuyenDi + '/' + data[index].Id).then((response) => {
                     if (response.data.Id != undefined) {
                         Alert.alert('Thông báo', 'Lỗi hệ thống khi đặt vé')
                         navigation.navigate('Home')
+                    } else {
+                        listChoiNgoi.push(data[index])
                     }
                 })
             }
 
-            axios.get('http://192.168.1.11:3000/chuyendi/' + Id_ChuyenDi).then((response) => {
+            axios.get('http://192.168.1.6:3000/chuyendi/' + Id_ChuyenDi).then((response) => {
                 let updatechuyendi = {
                     Id: response.data.Id,
                     SoGheTrong: response.data.SoGheTrong - data.length
                 }
-                axios.put('http://192.168.1.11:3000/chuyendi/updateSoGheTrong', updatechuyendi).then((response) => {
+                axios.put('http://192.168.1.6:3000/chuyendi/updateSoGheTrong', updatechuyendi).then((response) => {
                 })
             });
 
             let formVeXe = {
-                Id_ChuyenDi: Id_ChuyenDi,
+                Id_ChuyenDi: Id_ChuyenDi + "/" + IsNote.id,
                 Id_HanhKhach: IsNote.id,
                 DiemDon: DiemDi,
                 DiemTra: DiemTra,
                 TrangThai: 1,
                 TongTien: TongTien,
-                thanhtoan: 1
+                thanhtoan: 1,
+                ChoNgoi: listChoiNgoi.map((item: any) => item.Id).join('-')
 
             }
-            axios.post('http://192.168.1.11:3000/vexe/', formVeXe).then((response) => {
+            axios.post('http://192.168.1.6:3000/vexe/', formVeXe).then((response) => {
                 for (let index = 0; index < data.length; index++) {
                     let formChongoi = {
                         Id_VeXe: response.data.insertId,
@@ -96,16 +100,16 @@ const BookTicket = ({ route, navigation }: any) => {
                         Id_ChuyenDi: Id_ChuyenDi,
 
                     }
-                    axios.post('http://192.168.1.11:3000/chongoi/', formChongoi).then((response) => {
+                    axios.post('http://192.168.1.6:3000/chongoi/', formChongoi).then((response) => {
                     });
                 }
 
-                axios.get('http://192.168.1.11:3000/chuyendi/' + Id_ChuyenDi).then((response) => {
+                axios.get('http://192.168.1.6:3000/chuyendi/' + Id_ChuyenDi).then((response) => {
                     let updatechuyendi = {
                         Id: response.data.Id,
                         SoGheTrong: response.data.SoGheTrong - data.length
                     }
-                    axios.put('http://192.168.1.11:3000/chuyendi/updateSoGheTrong', updatechuyendi).then((response) => {
+                    axios.put('http://192.168.1.6:3000/chuyendi/updateSoGheTrong', updatechuyendi).then((response) => {
                         Alert.alert('Thông báo', 'Đặt Vé Thành Công')
                         navigation.navigate('MyTric')
                     })

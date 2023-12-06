@@ -19,7 +19,7 @@ const HomeScreen = ({ route, navigation }: any) => {
     const [IdHuyento, setIdHuyento] = useState('');
     const [IdHuyenfrom, setIdHuyenform] = useState('');
 
-    
+
     if (route.params != undefined) {
         const { datetime } = route.params;
         const { Idadderss } = route.params;
@@ -77,7 +77,7 @@ const HomeScreen = ({ route, navigation }: any) => {
 
                 await AsyncStorage.setItem('idHuyen', datahuyen);
 
-                const res = await fetch('http://192.168.1.11:3000/lotrinh/search/' + idToAdderss + '/' + idFromAdderss);
+                const res = await fetch('http://192.168.1.6:3000/lotrinh/search/' + idToAdderss + '/' + idFromAdderss);
                 const data = await res.json();
 
                 navigation.navigate('TripList', { idLoTrinh: data.Id, NgayDi: date, toAdderss: toAdderss, fromAdderss: fromAdderss });

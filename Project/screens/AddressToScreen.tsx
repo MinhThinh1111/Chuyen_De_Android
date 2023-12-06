@@ -8,10 +8,10 @@ const AddressToScreens = ({ route, navigation }: any) => {
     const [listHuyen, setListHuyen] = useState([]);
     const { address } = route.params;
 
-   
+
     const getTinh = async () => {
         try {
-            const res = await fetch('http://192.168.1.11:3000/tinh');
+            const res = await fetch('http://192.168.1.6:3000/tinh');
             const data = await res.json();
             setListTinh(data);
         } catch (err) {
@@ -21,7 +21,7 @@ const AddressToScreens = ({ route, navigation }: any) => {
 
     const getHuyenXa = async (id: any) => {
         try {
-            const res = await fetch('http://192.168.1.11:3000/quanhuyen/IdTinh/' + id);
+            const res = await fetch('http://192.168.1.6:3000/quanhuyen/IdTinh/' + id);
             const data = await res.json();
             setListHuyen(data);
         } catch (err) {
@@ -32,7 +32,7 @@ const AddressToScreens = ({ route, navigation }: any) => {
     const getAdderesNavigate = async (Id: any, Ten: any, Id_Huyen: any) => {
         if (address == 'to') {
             navigation.navigate('Home', { Idadderss: Id, Tenadderss: Ten, checkAdders: 'to', Id_Huyen: Id_Huyen });
-            
+
         } else {
             navigation.navigate('Home', { Idadderss: Id, Tenadderss: Ten, checkAdders: 'from', Id_Huyen: Id_Huyen });
         }

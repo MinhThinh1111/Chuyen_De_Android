@@ -34,6 +34,40 @@ const MyTripScreen = ({ route, navigation }: any) => {
         }
         setcheck(id);
     }
+    // const fetchVeXeHienTai = async () => {
+    //     const response = await axios.get(`http://192.168.1.6:3000/vexe/khachhang/${IsNote.id}/1`);
+    //     SetVeXeHienTai(response.data);
+    // };
+
+    useEffect(() => {
+        const checkAndCancelTickets = async () => {
+            // Kiểm tra trạng thái và thời gian của vé xe hiện tại
+            if (check === 1) {
+                const currentTime = new Date();
+                VeXeHienTai.forEach(async (item: any) => {
+                    const departureTime = new Date(item.NgayDi + ' ' + item.GioDi);
+                    const timeDifference = (currentTime.getTime() - departureTime.getTime()) / (1000 * 60);
+
+                    // Nếu thời gian đã qua 60 phút và vé chưa thanh toán, thay đổi trạng thái thành đã hủy
+                    if (timeDifference > 60 && item.thanhtoan !== 1) {
+                        await axios.put(`http://192.168.1.6:3000/vexe/${item.id}`, { TrangThai: 3 });
+                    }
+                });
+            }
+        };
+
+        // Kiểm tra và hủy vé sau 60 phút
+        const intervalId = setInterval(() => {
+            checkAndCancelTickets();
+        }, 60000); // 60 phút
+
+        // Thực hiện kiểm tra khi màn hình được mở
+        checkAndCancelTickets();
+
+        // Hủy interval khi màn hình bị đóng
+        return () => clearInterval(intervalId);
+    }, [check, VeXeHienTai]);
+    
 
     return (
         <>

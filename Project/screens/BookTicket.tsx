@@ -13,15 +13,16 @@ import axios from "axios";
 const BookTicket = ({ route, navigation }: any) => {
     const { IsNote, SetNote, getNote }: any = useNotes()
     const { data, Id_ChuyenDi, TongTien } = route.params;
-    const [DiemDi, setDiemDi] = useState('')
-    const [DiemTra, setDiemTra] = useState('')
-    const [batDau, setBatDau] = useState([])
-    const [batCuoi, setBatCuoi] = useState([])
-    const [dontra, setDonTra] = useState(1)
-    const [checkmodle, setcheckmodle] = useState(1)
-    const [input, setInput] = useState('')
+    const [DiemDi, setDiemDi] = useState('')// Lưu trữ thông tin điểm đón và điểm trả.
+    const [DiemTra, setDiemTra] = useState('')// Lưu trữ thông tin điểm đón và điểm trả.
+    const [batDau, setBatDau] = useState([])//Danh sách điểm đón và điểm trả dựa trên tỉnh/huyện được lấy từ server.
+    const [batCuoi, setBatCuoi] = useState([])//Danh sách điểm đón và điểm trả dựa trên tỉnh/huyện được lấy từ server.
+    const [dontra, setDonTra] = useState(1)//Biến để xác định liệu người dùng đang chọn điểm đón hay điểm trả
+    const [checkmodle, setcheckmodle] = useState(1)//Biến để xác định hiển thị nhập địa chỉ trung chuyển hay không.
+    const [input, setInput] = useState('')//Lưu trữ giá trị nhập vào khi người dùng nhập địa chỉ trung chuyển.
+    const [ChoNgoi, setChoNgoi] = useState([])
 
-
+    //Lấy danh sách điểm đón và điểm trả dựa trên tỉnh/huyện được lưu từ AsyncStorage.
     const getBookTicket = async () => {
         const data = await AsyncStorage.getItem('idHuyen');
         let id = data?.split(',');
@@ -42,7 +43,7 @@ const BookTicket = ({ route, navigation }: any) => {
             console.log(err);
         }
     }
-
+    //Xử lý khi người dùng chọn điểm đón hoặc điểm trả.
     const chonDiemdon = (name: any, trangthai: any) => {
         if (trangthai == 2) {
             setcheckmodle(2)
@@ -56,8 +57,10 @@ const BookTicket = ({ route, navigation }: any) => {
             }
         }
     }
+    //Gửi request đặt vé lên server.
     const datvexe = async () => {
-        let listChoiNgoi = []
+       
+        
         try {
 
             for (let index = 0; index < data.length; index++) {
@@ -65,12 +68,10 @@ const BookTicket = ({ route, navigation }: any) => {
                     if (response.data.Id != undefined) {
                         Alert.alert('Thông báo', 'Lỗi hệ thống khi đặt vé')
                         navigation.navigate('Home')
-                    } else {
-                        listChoiNgoi.push(data[index])
-                    }
+                    } 
                 })
             }
-
+            // Cập nhật số ghế trống của chuyến đi
             axios.get('http://192.168.1.6:3000/chuyendi/' + Id_ChuyenDi).then((response) => {
                 let updatechuyendi = {
                     Id: response.data.Id,
@@ -88,9 +89,10 @@ const BookTicket = ({ route, navigation }: any) => {
                 TrangThai: 1,
                 TongTien: TongTien,
                 thanhtoan: 1,
-                ChoNgoi: listChoiNgoi.map((item: any) => item.Id).join('-')
+                ChoNgoi: 1
 
             }
+            // Thêm thông tin vé và ghế đặt vào database
             axios.post('http://192.168.1.6:3000/vexe/', formVeXe).then((response) => {
                 for (let index = 0; index < data.length; index++) {
                     let formChongoi = {
@@ -212,11 +214,11 @@ const BookTicket = ({ route, navigation }: any) => {
             }
             <View style={{ position: 'absolute', bottom: 5, width: '100%' }}>
                 {DiemDi == '' || DiemTra == '' ?
-                    <TouchableOpacity style={{ width: '100%', height: 50, marginBottom: 15, backgroundColor: '#642EFE', borderRadius: 12, alignItems: 'center', alignSelf: 'center' }}>
+                    <TouchableOpacity style={{ width: '90%', height: 50, marginBottom: 15, backgroundColor: '#642EFE', borderRadius: 12, alignItems: 'center', alignSelf: 'center' }}>
                         <Text style={{ color: 'white', padding: 10, fontSize: 20 }}>Đặt vé</Text>
                     </TouchableOpacity>
                     :
-                    <TouchableOpacity onPress={() => datvexe()} style={{ width: '100%', height: 50, marginBottom: 15, backgroundColor: '#642EFE', borderRadius: 12, alignItems: 'center', alignSelf: 'center' }}>
+                    <TouchableOpacity onPress={() => datvexe()} style={{ width: '90%', height: 50, marginBottom: 15, backgroundColor: '#642EFE', borderRadius: 12, alignItems: 'center', alignSelf: 'center' }}>
                         <Text style={{ color: 'white', padding: 10, fontSize: 20 }}>Đặt vé</Text>
                     </TouchableOpacity>
                 }

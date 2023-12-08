@@ -7,21 +7,22 @@ import { useNavigation } from "@react-navigation/native";
 
 const ChooseSeatScreen = ({ route, navigation }: any) => {
     const { Id_ChuyenDi, Id_Xe, giaTien, SoGhe } = route.params;
-    const [ListGheXeT1, setListGheXeT1] = useState([]);
-    const [ListGheXeT2, setListGheXeT2] = useState([]);
+    const [ListGheXeT1, setListGheXeT1] = useState([]);//Lưu trữ danh sách ghế trên tầng 1 và tầng 2 của xe.
+    const [ListGheXeT2, setListGheXeT2] = useState([]);//Lưu trữ danh sách ghế trên tầng 1 và tầng 2 của xe.
 
-    const [Tang, setTang] = useState(1);
+    const [Tang, setTang] = useState(1);//Biểu diễn tầng hiện tại đang được hiển thị (1 hoặc 2)
 
-    const collectionDatVeXe: any = {};
+    const collectionDatVeXe: any = {};//Một đối tượng để lưu trữ thông tin đặt vé của các ghế dựa trên Id ghế và Id chuyến đi.
 
-    const [soLuong, setsoLuong] = useState(0);
+    const [soLuong, setsoLuong] = useState(0);//Số lượng ghế được chọn.
 
-
+    //Lấy danh sách ghế xe từ server dựa trên Id chuyến đi và Id xe.
     const GhetGheXeByChuyenDi = async () => {
         try {
-            const res = await fetch('http://192.168.1.6:3000/chongoi/search/' + Id_ChuyenDi);
+            const res = await fetch('http://192.168.1.118:3000/chongoi/search/' + Id_ChuyenDi);
             const data = await res.json();
 
+            //Kiểm tra trạng thái đặt vé của từng ghế và cập nhật collectionDatVeXe.
             if (data != null) {
                 for (let index = 0; index < data.length; index++) {
                     collectionDatVeXe[data[index].Id_ChuyenDi + data[index].Id_GheXe] = '1';
@@ -30,9 +31,9 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
         } catch (err) {
             console.log(err);
         }
-
+        //Cập nhật state ListGheXeT1 và ListGheXeT2 dựa trên dữ liệu lấy được.
         try {
-            const res = await fetch('http://192.168.1.6:3000/ghexe/search/' + Id_Xe + '/1');
+            const res = await fetch('http://192.168.1.118:3000/ghexe/search/' + Id_Xe + '/1');
             const data = await res.json();
             if (data != null) {
                 const List: any = [];
@@ -52,7 +53,7 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
             console.log(err);
         }
         try {
-            const res = await fetch('http://192.168.1.6:3000/ghexe/search/' + Id_Xe + '/2');
+            const res = await fetch('http://192.168.1.118:3000/ghexe/search/' + Id_Xe + '/2');
             const data = await res.json();
             if (data != null) {
                 const List: any = [];
@@ -74,6 +75,7 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
     }
 
     const Chonchongoi = async (Index: any, check: any) => {
+        // Xử lý khi người dùng chọn hoặc hủy chọn ghế
         if (check == 1) {
             if (ListGheXeT1[Index].TrangThai == '3') {
                 let so = soLuong - 1;
@@ -94,6 +96,7 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
             }
             await setListGheXeT1(List);
         } else {
+            // Giới hạn số lượng ghế mỗi lần đặt
             if (ListGheXeT2[Index].TrangThai == '3') {
                 let so = soLuong - 1;
                 setsoLuong(so);
@@ -107,6 +110,7 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
                     ListGheXeT2[Index] = { Id: ListGheXeT2[Index].Id, Ten: ListGheXeT2[Index].Ten, Id_Xe: ListGheXeT2[Index].Id_Xe, TrangThai: '3', Index: Index, SoGhe: ListGheXeT2[Index].SoGhe };
                 }
             }
+            // Cập nhật trạng thái ghế trong state
             const List: any = [];
             for (let index = 0; index < ListGheXeT2.length; index++) {
                 await List.push(ListGheXeT2[index]);
@@ -119,6 +123,7 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
     }
 
     const nextPage = async () => {
+        //Tạo danh sách ghế đã chọn
         const List: any = [];
         for (let index = 0; index < ListGheXeT1.length; index++) {
             if (ListGheXeT1[index].TrangThai === '3') {
@@ -134,7 +139,8 @@ const ChooseSeatScreen = ({ route, navigation }: any) => {
                 });
             }
         }
-        navigation.navigate('BookTicket', { data: List, Id_ChuyenDi: Id_ChuyenDi, TongTien: (250000 * soLuong) });
+        // Chuyển hướng sang màn hình đặt vé, truyền danh sách ghế đã chọn và tổng tiền
+        navigation.navigate('BookTicket', { data: List, Id_ChuyenDi: Id_ChuyenDi, TongTien: (giaTien * soLuong) });
     }
 
     useEffect(() => {

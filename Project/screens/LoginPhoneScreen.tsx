@@ -20,7 +20,7 @@ const LoginPhoneScreen = () => {
         let regexPhone = new RegExp('(0[1|3|5|7|8|9])+([0-9]{8})');
 
         if (regexPhone.test(isPhone)) {
-            const res = await fetch('http://192.168.1.6:3000/hanhkhach/searchSDT/' + isPhone);
+            const res = await fetch('http://192.168.1.118:3000/hanhkhach/searchSDT/' + isPhone);
             const data = await res.json();
 
             if (data.length > 0) {
@@ -29,6 +29,7 @@ const LoginPhoneScreen = () => {
                     TenHanhKhach: data[0].Ten,
                     SDT: data[0].Sdt,
                     Email: data[0].Email,
+                    MatKhau: data[0].MatKhau,
                 };
                 SetNote(Data)
                 AsyncStorage.setItem('Account', JSON.stringify(Data));
@@ -102,4 +103,4 @@ const styles = StyleSheet.create({
     }
 
 })
-export default LoginPhoneScreen; 
+export default LoginPhoneScreen;

@@ -4,14 +4,14 @@ import Icon from 'react-native-vector-icons/EvilIcons';
 
 const AddressToScreens = ({ route, navigation }: any) => {
 
-    const [listTinh, setListTinh] = useState([]);
-    const [listHuyen, setListHuyen] = useState([]);
-    const { address } = route.params;
+    const [listTinh, setListTinh] = useState([]);//Mảng để lưu trữ danh sách các tỉnh/thành phố.
+    const [listHuyen, setListHuyen] = useState([]);//Mảng để lưu trữ danh sách các quận/huyện.
+    const { address } = route.params; //Một biến để xác định liệu người dùng đang chọn địa chỉ "đi" hay "đến".
 
-
+    //Gọi API để lấy danh sách các tỉnh/thành phố và cập nhật state listTinh.
     const getTinh = async () => {
         try {
-            const res = await fetch('http://192.168.1.6:3000/tinh');
+            const res = await fetch('http://192.168.1.118:3000/tinh');
             const data = await res.json();
             setListTinh(data);
         } catch (err) {
@@ -19,16 +19,17 @@ const AddressToScreens = ({ route, navigation }: any) => {
         }
     }
 
+    //Gọi API để lấy danh sách quận/huyện của một tỉnh/thành phố và cập nhật state listHuyen.
     const getHuyenXa = async (id: any) => {
         try {
-            const res = await fetch('http://192.168.1.6:3000/quanhuyen/IdTinh/' + id);
+            const res = await fetch('http://192.168.1.118:3000/quanhuyen/IdTinh/' + id);
             const data = await res.json();
             setListHuyen(data);
         } catch (err) {
             console.log(err);
         }
     }
-
+    //Chuyển hướng đến màn hình chính ('Home') và truyền thông tin về địa chỉ đã chọn.
     const getAdderesNavigate = async (Id: any, Ten: any, Id_Huyen: any) => {
         if (address == 'to') {
             navigation.navigate('Home', { Idadderss: Id, Tenadderss: Ten, checkAdders: 'to', Id_Huyen: Id_Huyen });
@@ -38,6 +39,7 @@ const AddressToScreens = ({ route, navigation }: any) => {
         }
     }
 
+    //Sử dụng useEffect để gọi hàm getTinh khi component được tạo ra để lấy danh sách tỉnh ban đầu.
     useEffect(() => {
         getTinh();
     }, [])

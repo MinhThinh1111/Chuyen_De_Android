@@ -5,7 +5,7 @@ import DatePicker from 'react-native-modern-datepicker';
 
 const DateScreens = ({route,navigation}:any) => {
     const curentday = new Date().toJSON().slice(0, 10);
-    const [selectedDate, setSelectedDate] = useState(curentday);
+    const [selectedDate, setSelectedDate] = useState(curentday);//Lưu trữ ngày và giờ đã chọn từ DatePicker.
 
     if(route.params != undefined){
         const {datetime} = route.params;

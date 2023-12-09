@@ -25,6 +25,8 @@ import Danhsachxe from "./screens/Danhsachxe";
 import Thongtinchitiet from "./screens/ThongTinChiTiet";
 import Quidinhthuexe from "./screens/Quidinhthuexe";
 import UpdateProfileScreen from "./screens/UpdateProfileScreen";
+import VeXeKhachScreen from "./screens/VeXeKhach";
+import HuongDanScreen from "./screens/HuongDan";
 
 
 
@@ -41,8 +43,9 @@ const App = () => {
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             {/* Thinh */}
             <Stack.Screen name="LoginPhone" component={LoginPhoneScreen}></Stack.Screen>
-            <Stack.Screen name="LoginName" component={RegisterScreen}></Stack.Screen>
+            <Stack.Screen name="RegisterScreen" component={RegisterScreen}></Stack.Screen>
             <Stack.Screen name="App" component={TabNavigator}></Stack.Screen>
+            <Stack.Screen name="VeXeKhachScreen" component={VeXeKhachScreen}></Stack.Screen>
             <Stack.Screen name="AddresTo" component={AddressToScreens}></Stack.Screen>
             <Stack.Screen name="Date" component={DateScreens}></Stack.Screen>
             <Stack.Screen name="TripList" component={TripListScreens}></Stack.Screen>
@@ -51,6 +54,7 @@ const App = () => {
             <Stack.Screen name="TicketInform" component={Ticketinformation}></Stack.Screen>
             <Stack.Screen name="BillInformation" component={BillInformationScreen}></Stack.Screen>
             <Stack.Screen name="UpdateProfileScreen" component={UpdateProfileScreen}></Stack.Screen>
+            <Stack.Screen name="HuongDan" component={HuongDanScreen}></Stack.Screen>
 
             {/* Trieu */}
             <Stack.Screen name="VeMayBay" component={VeMayBay}></Stack.Screen>

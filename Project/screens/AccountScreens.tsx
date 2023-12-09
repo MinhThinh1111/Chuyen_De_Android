@@ -18,7 +18,7 @@ const AccountScreen = ({ navigation }: any) => {
         <>
             <StatusBar translucent={true} backgroundColor={'transparent'} barStyle="dark-content"></StatusBar>
             <View style={styles.banner}>
-                <Image style={styles.bannerImg} source={require("../assets/Images/banner1.jpg")} />
+                <Image style={styles.bannerImg} source={require("../assets/Images/background1.jpg")} />
             </View>
 
             <View style={styles.search}>
@@ -100,9 +100,9 @@ const styles = StyleSheet.create({
 
     search: {
         width: "100%",
-        padding: 25,
+        padding: 20,
         position: "absolute",
-        top: 60, alignItems: 'center'
+        top: 90, alignItems: 'center'
     },
 })
 export default AccountScreen;

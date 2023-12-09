@@ -1,198 +1,83 @@
+// HomeScreen.js
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, StatusBar, Alert } from "react-native";
-import IconIonicons from "react-native-vector-icons/Ionicons";
-import IconFeather from "react-native-vector-icons/Feather";
-import IconFontisto from "react-native-vector-icons/Fontisto";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, StatusBar } from "react-native";
 import { useNotes } from "../ConText/MyNote";
 
-const HomeScreen = ({ route, navigation }: any) => {
-    const curentday = new Date().toJSON().slice(0, 10);
+const HomeScreen = ({ navigation }: any) => {
+    const { IsNote }: any = useNotes();
 
-    const { IsNote }: any = useNotes()
-
-    const [date, setdate] = useState(curentday);
-    const [toAdderss, settoAdderss] = useState('');
-    const [fromAdderss, setfromAdderss] = useState('');
-    const [idToAdderss, setIdToAdderss] = useState();
-    const [idFromAdderss, setIdFromAdderss] = useState();
-    const [IdHuyento, setIdHuyento] = useState('');
-    const [IdHuyenfrom, setIdHuyenform] = useState('');
-
-
-    if (route.params != undefined) {
-        const { datetime } = route.params;
-        const { Idadderss } = route.params;
-        const { Tenadderss } = route.params;
-        const { checkAdders } = route.params;
-        const { Id_Huyen } = route.params;
-
-        if (datetime != undefined) {
-            let getYear = datetime.slice(0, 4);
-            let getMonth = datetime.slice(5, 7);
-            let getDate = datetime.slice(8, 10);
-            let date = getYear + '-' + getMonth + '-' + getDate;
-            setdate(date);
-        } else if (Idadderss != undefined) {
-            if (checkAdders == 'to') {
-                setIdHuyento(Id_Huyen);
-                settoAdderss(Tenadderss);
-                setIdToAdderss(Idadderss);
-            } else {
-                setIdHuyenform(Id_Huyen);
-                setfromAdderss(Tenadderss);
-                setIdFromAdderss(Idadderss);
-            }
-        }
-        route.params = undefined;
-    }
-
-    const swapAdderss = async () => {
-        let to = toAdderss;
-        let idTo = idToAdderss;
-        let idtoHuyen = IdHuyento;
-
-        await setIdHuyento(IdHuyenfrom);
-        await setIdHuyenform(idtoHuyen);
-        await settoAdderss(fromAdderss);
-        await setfromAdderss(to);
-        await setIdToAdderss(idFromAdderss);
-        await setIdFromAdderss(idTo);
-    };
-
-    const nextPage = async () => {
-        if (idToAdderss == null || idFromAdderss == null) {
-            if (idToAdderss == null && idFromAdderss == null) {
-                Alert.alert('Thông báo', 'Vui lòng chọn nơi khởi hành và nơi bạn muốn đến');
-            } else if (idFromAdderss == null) {
-                Alert.alert('Thông báo', 'Vui lòng chọn nơi bạn muốn đến');
-            } else {
-                Alert.alert('Thông báo', 'Vui lòng chọn nơi khởi hành');
-            }
-        } else {
-            try {
-                let datahuyen =
-                    IdHuyento + ',' +
-                    IdHuyenfrom;
-
-                await AsyncStorage.setItem('idHuyen', datahuyen);
-
-                const res = await fetch('http://192.168.1.118:3000/lotrinh/search/' + idToAdderss + '/' + idFromAdderss);
-                const data = await res.json();
-
-                navigation.navigate('TripList', { idLoTrinh: data.Id, NgayDi: date, toAdderss: toAdderss, fromAdderss: fromAdderss });
-            } catch (err) {
-                console.log(err);
-            }
-            navigation.navigate('TripList', { idLoTrinh: null, NgayDi: date, toAdderss: toAdderss, fromAdderss: fromAdderss });
-        }
-    };
     const VeMayBay = () => {
         navigation.navigate('VeMayBay');
     }
+
     const ThueXe = () => {
         navigation.navigate('ThueXe');
+    }
+
+    const VeXeKhachScreen = () => {
+        navigation.navigate('VeXeKhachScreen');
     }
 
     useEffect(() => {
     }, []);
 
     return (
-        <ScrollView>
+        <ScrollView style={styles.container}>
             <StatusBar translucent={true} backgroundColor={'transparent'} barStyle="dark-content"></StatusBar>
             <View style={styles.banner}>
-                <Image style={styles.bannerImg} source={require("../assets/Images/banner1.jpg")} />
+                <Image style={styles.bannerImg} source={require("../assets/Images/background1.jpg")} />
                 <View style={styles.bannerText}>
                     <Text style={styles.bannerText1}>Xin chào {IsNote.TenHanhKhach}</Text>
-                    <Text style={{ color: "black" }}>Chào mừng bạn đến với APP SPTRAVEL</Text>
+                    <Text style={styles.bannerText2}>Chào mừng bạn đến với APP HỖ TRỢ DU LỊCH</Text>
                 </View>
             </View>
 
-            <View style={styles.search}>
-                <View style={styles.searchAddress}>
-                    <View style={styles.searchAddressTo}>
-                        <IconFeather name="map-pin" size={20} color="red" />
-                        <View style={styles.searchAddressName}>
-                            <Text>Nơi đi</Text>
-                            <TouchableOpacity onPress={() => navigation.navigate("AddresTo", { address: 'to' })}>
-                                {
-                                    toAdderss == null || toAdderss.length == 0 ?
-                                        <Text style={{ fontWeight: "bold", color: 'black', fontSize: 20 }}>Nơi đi</Text>
-                                        :
-                                        <Text style={{ fontWeight: "bold", color: 'black', fontSize: 20 }}>{toAdderss}</Text>
-                                }
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View style={styles.line}></View>
-                    <View style={styles.searchAddressTo}>
-                        <IconFeather name="map-pin" size={20} color="red" />
-                        <View style={styles.searchAddressName}>
-                            <Text>Nơi đến</Text>
-                            <TouchableOpacity onPress={() => navigation.navigate("AddresTo", { address: 'from' })}>
-                                {
-                                    fromAdderss == null || fromAdderss.length == 0 ?
-                                        <Text style={{ fontWeight: "bold", color: 'black', fontSize: 20 }}>Nơi đến</Text>
-                                        :
-                                        <Text style={{ fontWeight: "bold", color: 'black', fontSize: 20 }}>{fromAdderss}</Text>
-                                }
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <TouchableOpacity onPress={() => swapAdderss()} style={styles.Icon}><IconIonicons name="swap-vertical-sharp" size={20} color="red" /></TouchableOpacity>
+            <View>
+                <View style={styles.sectionContainer}>
+                    <Text style={styles.sectionTitle}>DANH MỤC</Text>
                 </View>
 
-                <TouchableOpacity style={styles.searchDate} onPress={() => navigation.navigate("Date", { datetime: date })}>
-                    <View>
-                        <Text>Ngày khởi hành</Text>
-                        <Text style={{ fontSize: 20, color: 'black', fontWeight: 'bold' }}>{date}</Text>
-                    </View>
-                    <IconFontisto name="date" size={20} color='red'></IconFontisto>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => nextPage()} >
-                    <View style={styles.BtnSearch}>
-                        <Text style={{ alignSelf: "center", color: "white", fontSize: 15 }}>Tìm chuyến</Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
-
-            <View style={{ marginTop: 190, padding: 25 }}>
-                <Text style={{ fontSize: 18, fontWeight: "bold", color: "black", marginTop: 10 }}>DỊCH VỤ KHÁC</Text>
-                <ScrollView horizontal>
-                    <View style={{ flexDirection: 'row', marginTop: 20 }}>
-                        <TouchableOpacity onPress={() => VeMayBay()}>
-                            <View style={styles.News}>
-                                <Image style={styles.ImageNews} source={require('../assets/Images/panner2.jpg')} />
-                                <Text style={styles.NameNews}>VÉ MÁY BAY</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{ flexDirection: 'row', marginTop: 20 }}>
-                        <TouchableOpacity onPress={() => ThueXe()}>
-                            <View style={styles.News}>
-                                <Image style={styles.ImageNews} source={require('../assets/Images/panner4.jpg')} />
-                                <Text style={styles.NameNews}>THUÊ XE</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
+                <ScrollView horizontal style={styles.scrollView}>
+                    <TouchableOpacity onPress={() => VeXeKhachScreen()} style={styles.categoryButton}>
+                        <Text style={styles.categoryButtonText}>Vé Xe Khách</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => VeMayBay()} style={styles.categoryButton}>
+                        <Text style={styles.categoryButtonText}>Vé Máy Bay</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => ThueXe()} style={styles.categoryButton}>
+                        <Text style={styles.categoryButtonText}>Thuê Xe</Text>
+                    </TouchableOpacity>
                 </ScrollView>
             </View>
 
+            <View>
+                <View style={styles.sectionContainer}>
+                    <Text style={styles.sectionTitle}>ƯU ĐÃI</Text>
+                </View>
+
+                <View style={{justifyContent:'center', alignItems:'center'}}>
+                    <Image style={{width: 380, height:360, }} source={require("../assets/Images/uudai.jpg")} />
+                    <Text style={{padding: 10, color:'red', fontSize:15}}>Giảm giá lên đến 20% khi thanh toán online</Text>
+                </View>
+
+            </View>
         </ScrollView>
-    )
-}
+    );
+};
+
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#FFFFFF"
+        flex: 1,
+        backgroundColor: "#FFFFFF",
     },
     banner: {
         width: "100%",
         height: 260,
+        position: 'relative',
     },
     bannerImg: {
         width: "100%",
-        height: 260,
+        height: "100%",
     },
     bannerText: {
         position: "absolute",
@@ -204,86 +89,43 @@ const styles = StyleSheet.create({
         fontSize: 25,
         color: "black",
     },
-    search: {
-        width: "100%",
-        padding: 25,
-        position: "absolute",
-        top: 174
+    bannerText2: {
+        fontSize: 16,
+        color: "black",
     },
-    searchAddress: {
-        paddingHorizontal: 10,
-        borderRadius: 15,
-        elevation: 4,
-        shadowColor: '#555555',
-        backgroundColor: '#FFFFFF',
+    sectionContainer: {
+        padding: 10,
     },
-    searchAddressTo: {
-        flexDirection: "row",
-        alignItems: "center",
-        paddingVertical: 8,
-
+    sectionTitle: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: 'black',
+        marginBottom: 10,
     },
-    searchAddressName: {
-        paddingHorizontal: 10,
-    },
-    line: {
-        height: 1,
-        marginLeft: 30,
-        backgroundColor: "#C0C0C0",
-    },
-    searchDate: {
-        paddingHorizontal: 37,
-        borderRadius: 15,
-        elevation: 4,
-        shadowColor: '#555555',
-        backgroundColor: '#FFFFFF',
-        marginVertical: 14,
+    scrollView: {
         flexDirection: 'row',
+        paddingHorizontal: 10,
+        marginBottom: 10,
+    },
+    categoryButton: {
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: 8,
-    },
-    BtnSearch: {
+        paddingHorizontal: 15,
+        paddingVertical: 10,
         borderRadius: 15,
-        elevation: 2,
-        shadowColor: '#555555',
-        backgroundColor: '#642EFE',
-        padding: 15,
-    },
-    News: {
         backgroundColor: '#58ACFA',
-        borderRadius: 15,
-        width: 300,
-        height: 300,
-        overflow: 'hidden',
-        marginRight: 12,
-        elevation: 2,
-        shadowColor: '#555555',
+        marginRight: 10,
+        width: 125, height: 40,
+        marginBottom: 15
     },
-    ImageNews: {
-        width: '100%',
-        height: 250,
-    },
-    NameNews: {
+    categoryButtonText: {
+        color: 'white',
+        fontSize: 16,
         fontWeight: 'bold',
-        fontSize: 18,
-        overflow: 'hidden',
-        padding: 8,
-        color: '#fff',
-        textAlign: 'center'
     },
-    Icon: {
-        padding: 12,
-        width: 42,
-        top: 35,
-        left: 250,
-        zIndex: 9000,
-        backgroundColor: '#E6E6FA',
-        borderRadius: 10,
-        position: 'absolute',
-        elevation: 4,
-        shadowColor: '#555555',
-    }
+});
 
-})
 export default HomeScreen;
+
+

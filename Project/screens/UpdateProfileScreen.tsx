@@ -16,7 +16,7 @@ const UpdateProfileScreen = ({ navigation }: any) => {
   const handleUpdateProfile = async () => {
     try {
       // Gửi yêu cầu PUT đến đường dẫn http://192.168.2.98:3000/hanhkhach với dữ liệu cập nhật
-      const response = await axios.put("http://192.168.1.118:3000/hanhkhach", {
+      const response = await axios.put("http://192.168.1.6:3000/hanhkhach", {
         Id: IsNote.id,
         Ten: newName,
         Sdt: newPhone,
@@ -60,7 +60,7 @@ const UpdateProfileScreen = ({ navigation }: any) => {
         placeholder="Nhập số điện thoại mới"
         keyboardType="numeric"
       />
-      
+
 
       <Text style={styles.label}>Email mới:</Text>
       <TextInput

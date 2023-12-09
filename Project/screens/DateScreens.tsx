@@ -14,7 +14,7 @@ const DateScreens = ({route,navigation}:any) => {
     }
 
     const GetDateHome =(Date: any) =>{         
-        navigation.navigate('Home',{datetime: Date})
+        navigation.navigate('VeXeKhachScreen',{datetime: Date})
     }
 
     return (  

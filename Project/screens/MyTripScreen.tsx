@@ -13,7 +13,7 @@ const MyTripScreen = ({ route, navigation }: any) => {
     const [check, setcheck] = useState(1)
 
     if (route.params == undefined) {
-        axios.get('http://192.168.1.118:3000/vexe/khachhang/' + IsNote.id + '/1').then((response) => {
+        axios.get('http://192.168.1.6:3000/vexe/khachhang/' + IsNote.id + '/1').then((response) => {
             SetVeXeHienTai(response.data)
         });
     }
@@ -24,18 +24,18 @@ const MyTripScreen = ({ route, navigation }: any) => {
 
     const onPress = async (id: any) => {
         if (id == 2) {
-            axios.get('http://192.168.1.118:3000/vexe/khachhang/' + IsNote.id + '/2').then((response) => {
+            axios.get('http://192.168.1.6:3000/vexe/khachhang/' + IsNote.id + '/2').then((response) => {
                 setVeXeDaDi(response.data)
             });
         } else {
-            axios.get('http://192.168.1.118:3000/vexe/khachhang/' + IsNote.id + '/3').then((response) => {
+            axios.get('http://192.168.1.6:3000/vexe/khachhang/' + IsNote.id + '/3').then((response) => {
                 setVeXeDaHuy(response.data)
             });
         }
         setcheck(id);
     }
     // const fetchVeXeHienTai = async () => {
-    //     const response = await axios.get(`http://192.168.1.118:3000/vexe/khachhang/${IsNote.id}/1`);
+    //     const response = await axios.get(`http://192.168.1.6:3000/vexe/khachhang/${IsNote.id}/1`);
     //     SetVeXeHienTai(response.data);
     // };
 
@@ -50,7 +50,7 @@ const MyTripScreen = ({ route, navigation }: any) => {
 
                     // Nếu thời gian đã qua 60 phút và vé chưa thanh toán, thay đổi trạng thái thành đã hủy
                     if (timeDifference > 60 && item.thanhtoan !== 1) {
-                        await axios.put(`http://192.168.1.118:3000/vexe/${item.id}`, { TrangThai: 3 });
+                        await axios.put(`http://192.168.1.6:3000/vexe/${item.id}`, { TrangThai: 3 });
                     }
                 });
             }
@@ -73,7 +73,7 @@ const MyTripScreen = ({ route, navigation }: any) => {
         <>
             <StatusBar translucent={true} backgroundColor={'transparent'} barStyle="dark-content"></StatusBar>
             <View style={styles.header}>
-                <Text style={styles.txtHeader}>Lịch sử mua vé</Text>
+                <Text style={styles.txtHeader}>Lịch sử</Text>
             </View>
             <View style={{ backgroundColor: '#819FF7' }}>
                 <View style={{ backgroundColor: 'white', height: '100%', borderRadius: 30, padding: 15 }}>

@@ -18,7 +18,7 @@ const RegisterScreen = ({ route }: any) => {
     const [ischeckPhone, setcheckPhone] = useState(false);
     const [isPhoneRegistered, setIsPhoneRegistered] = useState(false);
 
-    const login = async () => {
+    const check = async () => {
         let regexPhone = /^(0[1-9])+([0-9]{8})$/; // Định dạng số điện thoại: Bắt đầu từ 0-9, tiếp theo 8 chữ số bất kỳ.
         let regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -30,7 +30,7 @@ const RegisterScreen = ({ route }: any) => {
         }
 
         // Kiểm tra số điện thoại đã được đăng ký trước đó hay chưa
-        const res = await fetch('http://192.168.1.118:3000/hanhkhach/searchSDT/' + isPhone);
+        const res = await fetch('http://192.168.1.6:3000/hanhkhach/searchSDT/' + isPhone);
         const data = await res.json();
 
         if (data.length > 0) {
@@ -53,14 +53,14 @@ const RegisterScreen = ({ route }: any) => {
         }
 
         // Thực hiện đăng ký nếu tất cả các điều kiện đều đúng
-        let formlogin = {
+        let formcheck = {
             Ten: isName,
             Sdt: isPhone,
             Email: isEmail,
             TrangThai: 1
         };
 
-        axios.post('http://192.168.1.118:3000/hanhkhach/', formlogin).then((response) => {
+        axios.post('http://192.168.1.6:3000/hanhkhach/', formcheck).then((response) => {
             let Data = {
                 id: response.data.insertId,
                 TenHanhKhach: isName,
@@ -79,8 +79,8 @@ const RegisterScreen = ({ route }: any) => {
             <View style={styles.header}></View>
             <View style={styles.phone}>
                 <View style={{ padding: 30 }}>
-                    <Text style={{ color: 'black', fontSize: 26, fontWeight: 'bold', marginTop: 20, textAlign: 'center' }}>Chào mừng bạn lần đầu đến với ứng dụng của chúng tôi!</Text>
-                    <Image style={{ width: '100%', height: 'auto', borderRadius: 12, aspectRatio: 640 / 299, marginTop: 20 }} source={require('../assets/Images/AnimationCar.gif')}></Image>
+                    <Text style={{ color: 'black', fontSize: 26, fontWeight: 'bold', marginTop: 20, textAlign: 'center' }}>Chào mừng bạn đến với ứng dụng của chúng tôi!</Text>
+                    <Image style={{ width: '100%', height: 'auto', borderRadius: 12, aspectRatio: 640 / 299, marginTop: 20 }} source={require('../assets/Images/background.jpg')}></Image>
                     <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold', marginTop: 30 }}>Đăng ký tài khoản</Text>
                     <Text style={{ paddingRight: 12, fontSize: 15, paddingTop: 8 }}>Cập nhật thông tin để sẵn sàng cho chuyến hành trình sắp tới</Text>
 
@@ -109,7 +109,7 @@ const RegisterScreen = ({ route }: any) => {
                         ''
                     )}
 
-                    <TouchableOpacity onPress={() => login()} style={{ width: '100%', backgroundColor: '#819FF7', borderRadius: 15, marginTop: 35 }}><Text style={{ alignSelf: 'center', padding: 15, fontSize: 16, color: 'white' }}>Đăng ký</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={() => check()} style={{ width: '100%', backgroundColor: '#819FF7', borderRadius: 15, marginTop: 35 }}><Text style={{ alignSelf: 'center', padding: 15, fontSize: 16, color: 'white' }}>Đăng ký</Text></TouchableOpacity>
                 </View>
             </View>
         </ScrollView>

@@ -22,7 +22,7 @@ const BillInformationScreen = ({ navigation }: any) => {
                         <Text style={styles.boldRed}>60 phút</Text>
                         <Text style={{fontSize:18}}>để thanh toán và nhận vé</Text>
                         <Text style={{fontSize:18}}>Địa chỉ:</Text>
-                        <Text style={styles.boldRed}>53 Võ Văn Ngân, Phường Linh Chiểu, Quận Thủ Đức</Text>
+                        <Text style={styles.boldRed}>53 Võ Văn Ngân, P.Linh Chiểu, Q.Thủ Đức</Text>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -84,9 +84,9 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     methodTitle: {
-      fontSize: 23,
+      fontSize: 25,
       fontWeight: 'bold',
-      padding: 10
+      padding: 10, 
     },
     boldRed: {
       fontWeight: 'bold',

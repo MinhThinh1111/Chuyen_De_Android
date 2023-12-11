@@ -1,4 +1,3 @@
-
 // Import các thành phần và thư viện cần thiết
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
@@ -11,16 +10,18 @@ const UpdateProfileScreen = ({ navigation }: any) => {
   const [newName, setNewName] = useState(IsNote.TenHanhKhach || ''); // Tên mới
   const [newPhone, setNewPhone] = useState(IsNote.SDT || ''); // Số điện thoại mới
   const [newEmail, setNewEmail] = useState(IsNote.Email || ''); // Email mới
+  const [newPassword, setNewPassword] = useState(IsNote.MatKhau || ''); // Mật khẩu mới
 
   // Hàm cập nhật thông tin cá nhân
   const handleUpdateProfile = async () => {
     try {
       // Gửi yêu cầu PUT đến đường dẫn http://192.168.2.98:3000/hanhkhach với dữ liệu cập nhật
-      const response = await axios.put("http://192.168.1.6:3000/hanhkhach", {
+      const response = await axios.put("http://192.168.2.97:3000/hanhkhach", {
         Id: IsNote.id,
         Ten: newName,
         Sdt: newPhone,
         Email: newEmail,
+        MatKhau: newPassword, // Thêm trường MatKhau
         TrangThai: IsNote.TrangThai,
       });
 
@@ -32,6 +33,7 @@ const UpdateProfileScreen = ({ navigation }: any) => {
           TenHanhKhach: newName,
           SDT: newPhone,
           Email: newEmail,
+          MatKhau: newPassword, // Cập nhật trường MatKhau
         });
         navigation.goBack();
       } else {
@@ -61,7 +63,6 @@ const UpdateProfileScreen = ({ navigation }: any) => {
         keyboardType="numeric"
       />
 
-
       <Text style={styles.label}>Email mới:</Text>
       <TextInput
         style={styles.input}
@@ -69,6 +70,16 @@ const UpdateProfileScreen = ({ navigation }: any) => {
         onChangeText={(text) => setNewEmail(text)}
         placeholder="Nhập email mới"
         keyboardType="email-address"
+      />
+
+      {/* Thêm TextInput cho mật khẩu mới */}
+      <Text style={styles.label}>Mật khẩu mới:</Text>
+      <TextInput
+        style={styles.input}
+        value={newPassword}
+        onChangeText={(text) => setNewPassword(text)}
+        placeholder="Nhập mật khẩu mới"
+        secureTextEntry={true} // Ẩn ký tự khi nhập mật khẩu
       />
 
       <TouchableOpacity style={styles.updateButton} onPress={handleUpdateProfile}>

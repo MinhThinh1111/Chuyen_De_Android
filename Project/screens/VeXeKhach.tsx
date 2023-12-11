@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Image, Text, TouchableOpacity, ScrollView, StatusBar, Alert } from "react-native";
 import IconIonicons from "react-native-vector-icons/Ionicons";
+import Icon from 'react-native-vector-icons/Ionicons';
 import IconFeather from "react-native-vector-icons/Feather";
 import IconFontisto from "react-native-vector-icons/Fontisto";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -77,7 +78,7 @@ const VeXeKhachScreen = ({ route, navigation }: any) => {
 
                 await AsyncStorage.setItem('idHuyen', datahuyen);
 
-                const res = await fetch('http://192.168.1.6:3000/lotrinh/search/' + idToAdderss + '/' + idFromAdderss);
+                const res = await fetch('http://192.168.2.97:3000/lotrinh/search/' + idToAdderss + '/' + idFromAdderss);
                 const data = await res.json();
 
                 navigation.navigate('TripList', { idLoTrinh: data.Id, NgayDi: date, toAdderss: toAdderss, fromAdderss: fromAdderss });
@@ -86,9 +87,6 @@ const VeXeKhachScreen = ({ route, navigation }: any) => {
             }
             navigation.navigate('TripList', { idLoTrinh: null, NgayDi: date, toAdderss: toAdderss, fromAdderss: fromAdderss });
         }
-    };
-    const Home = () => {
-        navigation.navigate('Home');
     };
     const HuongDan = () => {
         navigation.navigate('HuongDan');
@@ -102,6 +100,9 @@ const VeXeKhachScreen = ({ route, navigation }: any) => {
             <StatusBar translucent={true} backgroundColor={'transparent'} barStyle="dark-content"></StatusBar>
             <View style={styles.banner}>
                 <Image style={styles.bannerImg} source={require("../assets/Images/banner1.jpg")} />
+            </View>
+            <View style={styles.headerName}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: -10 }} ><Icon style={{ backgroundColor: 'white', padding: 12, borderRadius: 10 }} name="arrow-back" size={20} color="red" /></TouchableOpacity>
             </View>
 
             <View style={styles.search}>
@@ -154,25 +155,21 @@ const VeXeKhachScreen = ({ route, navigation }: any) => {
             </View>
 
             <View style={{ marginTop: 190, padding: 25 }}>
-                {/* <Text style={{ fontSize: 18, fontWeight: "bold", color: "black", marginTop: 10 }}>DỊCH VỤ KHÁC</Text> */}
                 <ScrollView horizontal>
                     <View style={{ flexDirection: 'row', marginTop: 20 }}>
                         <TouchableOpacity onPress={() => HuongDan()}>
-                            <View style={{width: 380, height:360, }}>
+                            <View style={{ width: 380, height: 360, }}>
                                 <Image style={styles.ImageNews} source={require('../assets/Images/background1.jpg')} />
-                                <Text style={{padding: 15, fontSize: 20, fontWeight:'bold', textAlign:'center', color:'red'}}>Hướng Dẫn Đặt Vé</Text>
+                                <Text style={{ padding: 15, fontSize: 20, fontWeight: 'bold', textAlign: 'center', color: 'red' }}>Hướng Dẫn Đặt Vé</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
-                   
+
                 </ScrollView>
             </View>
-            <TouchableOpacity onPress={Home} style={styles.exitButton}>
-                <Text style={styles.exitButtonText}>Thoát</Text>
-            </TouchableOpacity>
 
         </ScrollView>
-        
+
     )
 }
 const styles = StyleSheet.create({
@@ -185,12 +182,12 @@ const styles = StyleSheet.create({
         width: '30%',
         alignSelf: 'center',
         marginTop: 20,
-      },
-      exitButtonText: {
+    },
+    exitButtonText: {
         color: 'white',
         fontSize: 20,
         textAlign: 'center',
-      },
+    },
     container: {
         backgroundColor: "#FFFFFF"
     },
@@ -291,6 +288,13 @@ const styles = StyleSheet.create({
         position: 'absolute',
         elevation: 4,
         shadowColor: '#555555',
+    },
+    headerName: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 12,
+        top: -120
+
     }
 
 })

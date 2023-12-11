@@ -56,7 +56,7 @@ const HomeScreen = ({ navigation }: any) => {
                 </View>
 
                 <View style={{justifyContent:'center', alignItems:'center'}}>
-                    <Image style={{width: 380, height:360, }} source={require("../assets/Images/uudai.jpg")} />
+                    <Image style={{width: 380, height:360 }} source={require("../assets/Images/uudai.jpg")} />
                     <Text style={{padding: 10, color:'red', fontSize:15}}>Giảm giá lên đến 20% khi thanh toán online</Text>
                 </View>
 
